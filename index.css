@@ -1,0 +1,65 @@
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	margin: 50px;
+}
+
+span {
+	display: block;
+}
+
+a {
+	text-decoration: none;
+	color: #4d90fe;
+}
+
+div {
+	margin-bottom: 20px;
+}
+
+img {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin: 50px;
+	width: 200px;
+}
+
+#photo {
+    border-radius: 3px;	
+}
+
+#name {
+	font-size: 22px;
+	font-weight: bold;	
+}
+
+#occupation {
+	font-size: 18px;
+}
+
+#occupation a {
+	color: black;
+}
+
+.hint {
+	color: lightgray;
+}
+
+.title {
+	font-size: 18px;	
+	font-weight: bold;
+}
+
+#experience {
+	padding-left: 20px;
+}
+
+.red {
+	background-color: #AFEEEE;
+}
+
+#hidden {
+/*	color: white;*/
+	opacity: 0.01;
+}
