@@ -26,12 +26,12 @@ img {
 }
 
 #photo {
-    border-radius: 3px;	
+    border-radius: 3px;
 }
 
 #name {
 	font-size: 22px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 #occupation {
@@ -47,7 +47,7 @@ img {
 }
 
 .title {
-	font-size: 18px;	
+	font-size: 18px;
 	font-weight: bold;
 }
 
@@ -56,10 +56,10 @@ img {
 }
 
 .red {
-	background-color: #AFEEEE;
+	/*background-color: #AFEEEE;*/
 }
 
 #hidden {
 /*	color: white;*/
-	opacity: 0.01;
+	opacity: 0.05;
 }
