@@ -32,6 +32,8 @@ img {
 #name {
 	font-size: 22px;
 	font-weight: bold;
+	display: flex;
+	flex-direction: row;
 }
 
 #occupation {
@@ -55,11 +57,11 @@ img {
 	padding-left: 20px;
 }
 
-.red {
+.job {
 	/*background-color: #AFEEEE;*/
 }
 
-#hidden {
+.hidden {
 /*	color: white;*/
 	opacity: 0.05;
 }
