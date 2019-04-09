@@ -65,3 +65,8 @@ img {
 /*	color: white;*/
 	opacity: 0.05;
 }
+
+#typesetting {
+	display: flex;
+	flex-direction: row;
+}
