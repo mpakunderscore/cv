@@ -25,6 +25,10 @@ img {
 	width: 200px;
 }
 
+.mobile {
+	display: none;
+}
+
 #photo {
     border-radius: 3px;
 }
@@ -78,6 +82,9 @@ img {
 }
 
 @media only screen and (max-width: 600px) {
+	.mobile {
+		display: block;
+	}
 	body {
 		/*background-color: lightblue;*/
 		margin: 40px;
