@@ -2,6 +2,10 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	margin: 50px;
+	--black-color: #282727;
+	--white-color: ghostwhite;
+	background-color: var(--white-color);
+	color: var(--black-color);
 }
 
 span {
@@ -94,5 +98,12 @@ img {
 	}
 	#experience {
 		padding-left: 0;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	body {
+		background-color: var(--black-color);
+		color: var(--white-color);
 	}
 }

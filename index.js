@@ -29,3 +29,4 @@ function typesetting() {
 typesetting();
 
 let timer = setInterval(typesetting, 500);
+
