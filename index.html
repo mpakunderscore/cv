@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" class="dark">
 
     <head>
         <meta charset="utf-8">
@@ -27,6 +27,8 @@
 
 		<div class="center">
 
+			<div id="color-scheme" onclick="setTheme()">🌚</div>
+
 			<div id="name">
 				<div class="hidden">M</div>
 				<div>&nbsp;Pavel A. Kuzmin&nbsp;</div>
@@ -46,21 +48,29 @@
 			<img id="photo" src="images/photo3.png" alt="Photo">
 
 			<div>
-				<span class="title">Current skills:</span>
-				<span>Web (React, Node, JavaScript, TS, HTML, CSS, PWA), Kotlin</span>
+				<span class="title">About:</span>
 			</div>
 
-			<div>
-				<span class="title">Education:</span>
-				<span>SPbSTU, Faculty of Technical Cybernetics (2008-2010)</span>
-<!-- 				<span>Coursera: AI class, HCI class, Synapses Neurons and Brains class</span> -->
-				<span>Autodidacticism</span>
-			</div>
+			<div id="about">
 
-			<div>
-				<span class="title">Interests:</span>
-				<span>Human–computer interaction, Problem solving, Machine learning</span>
-				<span>Travel, Music, Snowboarding, Enduro</span>
+				<div>
+					<span class="title">Current skill focus:</span>
+					<span>Web (React, Node, Capacitor, TS, HTML, CSS)</span>
+				</div>
+
+				<div>
+					<span class="title">Education:</span>
+					<span>SPbSTU, Faculty of Technical Cybernetics (2008-2010)</span>
+					<!-- 				<span>Coursera: AI class, HCI class, Synapses Neurons and Brains class</span> -->
+					<span>Autodidacticism</span>
+				</div>
+
+				<div>
+					<span class="title">Interests:</span>
+					<span>Human–computer interaction, Problem solving, Machine learning</span>
+					<span>Travel, Music, Snowboarding, Enduro</span>
+				</div>
+
 			</div>
 
 			<div>
@@ -72,80 +82,58 @@
 				<div class="">
 					<span><b>Enecuum (remote):</b> <br class="mobile"/>(September 2020 — 2023)</span>
 					<span>Software Engineer</span>
-					<span>Development (mobile and enecuum.app)</span>					
-					<span>React, Node, JavaScript, TypeScript, Kotlin</span>
+					<span>Development (mobile and web)</span>
+					<span>TypeScript, JavaScript, Kotlin, React, Node</span>
 				</div>
 
 				<div class="">
-					<span><b>Red Crown (contract):</b> <br class="mobile"/>(February 2019 — November 2019)</span>
+					<span><b>Red Crown (contract):</b> <br class="mobile"/>(February 2019 — 2020)</span>
 					<span>Software Engineer</span>
 					<span>Mobile development</span>
-					<span>React Native, JavaScript</span>
+					<span>JavaScript, React Native</span>
 				</div>
-
-<!-- 				<div class="">
-					<span><b>Fintech startup (remote):</b> <br class="mobile"/>(November 2018 — January 2019)</span>
-					<span>Software Engineer</span>
-					<span>All stages of development process</span>
-					<span>Spring, Vue, PostgreSQL</span>
-					<span>Meh #2 (expressing a lack of interest or enthusiasm)</span>
-				</div> -->
 
 				<div class="">
 					<span><b>QuestFactory (friends):</b> <br class="mobile"/>(March 2017 — October 2018)</span>
 					<span>Software Engineer</span>
-					<span>Mobile applications, websites, utilities for raspberry, escape game server..</span>
+					<span>Mobile applications, websites, utilities for raspberry, escape game server</span>
 					<span>Java, Android, JS, Node, Electron, Raspberry Pi</span>
 				</div>
 
-<!-- 				<div class="">
-					<span><b>Fintech company:</b> <br class="mobile"/>(December 2016 — February 2017)</span>
-					<span>Management Team</span>
-					<span>Meh under NDA</span>
-				</div> -->
-
 				<div class="">
 					<span><b>Smart Media Systems:</b> <br class="mobile"/>(January 2015 - August 2016)</span>
-					<span>Lead Software Engineer</span>
-					<span>Media content distribution system, media server with voice control</span>
+					<span>Lead Software Engineer (small team)</span>
+					<span>Media content distribution system, media server</span>
 					<span>Project management, Development</span>
-<!-- 					<span>Company development and strategy</span> -->
-					<span>Java, Spring, JS, Angular, Android, OpenCV, ..</span>
+					<span>Java, Spring, JS, Angular, Android</span>
 				</div>
 
 				<div class="">
 					<span><b>ERPScan:</b> <br class="mobile"/>(February 2013 - August 2014)</span>
 					<span>Software Engineer</span>
-					<span>Code analysis tool for search vulnerabilities in programs</span>
+					<span>Code analysis tool for searching vulnerabilities in SAP programs</span>
 					<span>Java</span>
-<!-- 					<span>R&D (text mining, static and dynamic program analysis)</span> -->
-<!-- 					<span>Product design and team management</span> -->
 				</div>
 
 				<div class="">
 					<span><b>Digital Security:</b> <br class="mobile"/>(September 2011 - February 2013)</span>
 					<span>Software Engineer</span>
-					<span>Algorithms for search vulnerabilities in SAP</span>
-					<span>Development of algorithms and tasks from hackers</span>
-					<span>Java</span>					
-<!-- 					<span>Understanding of the problems within companies</span> -->
-					
+					<span>Development of tools for searching vulnerabilities in SAP</span>
+					<span>Java</span>
 				</div>
 
 				<div class="">
 					<span><b>Digital Entertainment:</b> <br class="mobile"/>(January 2011 - September 2011)</span>
 					<span>Software Developer</span>
-					<span>Several apps and games</span>
-					<span>Java</span>					
-<!-- 					<span>Server-side programming, highload, gamedesign, management</span> -->
+					<span>Several web apps and games</span>
+					<span>Java backend</span>
 				</div>
 
 				<div class="">
-					<span><b>Several gamedev startups:</b> <br class="mobile"/>(December 2009 - January 2011)</span>
+					<span><b>Gamedev startups:</b> <br class="mobile"/>(December 2009 - January 2011)</span>
 					<span>Game Developer</span>					
-					<span>Server-side programming, billing, game design</span>
-					<span>Java, PHP</span>					
-<!-- 					<span>Responsibility for production</span> -->
+					<span>Server-side programming, billing</span>
+					<span>Java backend, PHP backend</span>
 				</div>
 
 				<div class="">
@@ -155,37 +143,21 @@
 				</div>
 			</div>
 
-			<div class="technologies">
-				<span class="title">Technologies that i used:</span>
-				<span>Frameworks: Spring, Play Framework, Node, Android, React Native, React, Ionic, Vue, Capacitor, Electron..</span>
-				<span>Databases: PostgreSQL, MongoDB, MySQL, Neo4j, Hibernate, Ebean</span>
-				<span>Environment: Maven, npm, yarn, Gradle, Bower, Grunt</span>
-				<span>Operations: Heroku, Amazon, Docker, K8s</span>
-				<span>Other: PWA, TensorFlow, ANTLR, Raspberry..</span>
-			</div>
-
 			<div id="typesetting">
 				<span id="typesetting-first">04.2023, mpak</span>
 				<span id="typesetting-last"></span>
 			</div>
 
 			<div class="">
-				<a href="./cv.pdf" target="_blank">CV 2020</a>
+				<a href="./cv.pdf" target="_blank">PDF CV 2023</a>
 			</div>
 
 			<div class="hidden">
-				Want some easter egg? No way, too boring person for this..
+				Want some easter egg? No way, too boring person for this
 			</div>
 
 <!--			<div>Three problems: continuous learning process, full neural interface, freedom of digital creatures.</div>-->
 
-<!--			<div>In love with neural engineering.</div>-->
-
-<!--			<div>Learning to be happy.</div>-->
-
-<!--			<a href="/blog">Blog</a>-->
-
-<!--			<a href="/endpoint">Endpoint</a>-->
 
 		</div>
 

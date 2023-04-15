@@ -1,9 +1,19 @@
+:root.light {
+	color-scheme: light;
+	--black-color: ghostwhite;
+	--white-color: #282727;
+}
+
+:root.dark {
+	color-scheme: dark;
+	--black-color: #282727;
+	--white-color: ghostwhite;
+}
+
 body {
 	font-family: 'Open Sans', sans-serif;
 	font-size: 16px;
 	margin: 50px;
-	--black-color: #282727;
-	--white-color: ghostwhite;
 	background-color: var(--white-color);
 	color: var(--black-color);
 }
@@ -27,6 +37,11 @@ img {
 	right: 0;
 	margin-right: 50px;
 	width: 200px;
+	opacity: .1;
+}
+
+img:hover {
+	opacity: .9;
 }
 
 .mobile {
@@ -59,6 +74,10 @@ img {
 .title {
 	font-size: 18px;
 	font-weight: bold;
+}
+
+#about {
+	padding-left: 20px;
 }
 
 #experience {
@@ -106,4 +125,12 @@ img {
 		background-color: var(--black-color);
 		color: var(--white-color);
 	}
+}
+
+#color-scheme {
+	position: fixed;
+	right: 20px;
+	top: 20px;
+	cursor: pointer;
+	user-select: none;
 }

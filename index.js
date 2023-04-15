@@ -1,3 +1,18 @@
+let emoji = {
+    light: '🌞',
+    dark: '🌚'
+}
+
+const setTheme = theme => {
+    if (document.documentElement.className === 'dark')
+        theme = 'light'
+    else
+        theme = 'dark'
+    document.documentElement.className = theme
+    console.log(theme)
+    document.getElementById('color-scheme').innerText = emoji[theme]
+}
+
 let postfix = '';
 
 let counter = -5;
