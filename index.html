@@ -3,11 +3,11 @@
 <html lang="en" class="dark">
 
     <head>
-        <meta charset="utf-8">
-		<title>Pavel K</title>
-        <link href="index.css?v4" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css">
-		<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>
+<!--        <meta charset="utf-8">-->
+<!--		<title>Pavel K</title>-->
+<!--        <link href="index.css?v4" rel="stylesheet" type="text/css">-->
+<!--        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600" rel="stylesheet" type="text/css">-->
+<!--		<link rel="shortcut icon" type="image/png" href="images/favicon.png"/>-->
 
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-FS8WCTL443"></script>
@@ -19,11 +19,42 @@
 			gtag('config', 'G-FS8WCTL443');
 		</script>
 
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, viewport-fit=cover, user-scalable=no, minimal-ui">
+
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" type="text/css">
+
+		<title>Pavel K</title>
+
+		<link rel="shortcut icon" type="image/png" href="/images/favicon.png">
+<!--		<link rel="manifest" href="manifest.json">-->
+
+		<meta name="theme-color" content="#000">
+		<meta name="theme" content="#000">
+
+		<meta name="apple-mobile-web-app-status-bar-style" content="white-translucent">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+<!--		<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">-->
+
+		<meta name="mobile-web-app-capable" content="yes"/>
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<link href="index.css?v5" rel="stylesheet" type="text/css">
+		<meta name="description" content="CV">
 	</head>
 
     <body>
 
-		<div class="center">
+		<div id="about" onclick="cv()">
+			entry point for legal intermediaries
+		</div>
+
+		<div id="menu">
+			<div onclick="about()">ABOUT</div>
+			<div onclick="cv()">CV</div>
+		</div>
+
+		<div id="cv">
 
 			<div id="color-scheme" onclick="setTheme()">🌚</div>
 
@@ -45,29 +76,21 @@
 			<img id="photo" src="images/photo3.png" alt="Photo">
 
 			<div>
-				<span class="title">About:</span>
+				<span class="title">Current skill focus:</span>
+				<span>Web (React, Node, Capacitor, TS, HTML, CSS)</span>
 			</div>
 
-			<div id="about">
+			<div>
+				<span class="title">Education:</span>
+				<span>SPbSTU, Faculty of Technical Cybernetics (2008-2010)</span>
+				<span>Autodidacticism</span>
+			</div>
 
-				<div>
-					<span class="title">Current skill focus:</span>
-					<span>Web (React, Node, Capacitor, TS, HTML, CSS)</span>
-				</div>
-
-				<div>
-					<span class="title">Education:</span>
-					<span>SPbSTU, Faculty of Technical Cybernetics (2008-2010)</span>
-					<span>Autodidacticism</span>
-				</div>
-
-				<div>
-					<span class="title">Interests:</span>
-					<span>Human–computer interaction, Problem solving, Machine learning</span>
-					<span>Travel, Music, Snowboarding, Enduro</span>
-					<span>Talk with ChatGPT</span>
-				</div>
-
+			<div>
+				<span class="title">Interests:</span>
+				<span>Human–computer interaction, Problem solving, Machine learning</span>
+				<span>Travel, Music, Snowboarding, Enduro</span>
+				<span>Talk with ChatGPT</span>
 			</div>
 
 			<div>

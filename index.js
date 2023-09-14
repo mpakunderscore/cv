@@ -1,3 +1,15 @@
+const cv = () => {
+    document.getElementById('menu').style.display = 'none'
+    document.getElementById('about').style.display = 'none'
+    document.getElementById('cv').style.display = 'block'
+}
+
+const about = () => {
+    document.getElementById('menu').style.display = 'none'
+    document.getElementById('cv').style.display = 'none'
+    document.getElementById('about').style.display = 'block'
+}
+
 let emoji = {
     light: '🌞',
     dark: '🌚'
