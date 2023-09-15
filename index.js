@@ -10,7 +10,7 @@ const about = () => {
     document.getElementById('about').style.display = 'block'
 }
 
-let emoji = {
+const emoji = {
     light: '🌞',
     dark: '🌚'
 }

@@ -39,7 +39,7 @@ img {
 	top: 50px;
 	right: 50px;
 	margin-right: 50px;
-	width: 200px;
+	width: 150px;
 	opacity: .1;
 }
 
@@ -145,6 +145,10 @@ img:hover {
 	font-weight: 300;
 
 	cursor: pointer;
+}
+
+#description {
+	/*width: 90%;*/
 }
 
 #color-scheme {
