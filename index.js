@@ -7,7 +7,7 @@ const cv = () => {
 const about = () => {
     document.getElementById('menu').style.display = 'none'
     document.getElementById('cv').style.display = 'none'
-    document.getElementById('about').style.display = 'block'
+    document.getElementById('about').style.display = 'flex'
 }
 
 const emoji = {
