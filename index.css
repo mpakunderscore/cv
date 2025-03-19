@@ -40,7 +40,7 @@ img {
 	right: 50px;
 	margin-right: 50px;
 	width: 150px;
-	opacity: .1;
+	/*opacity: .1;*/
 }
 
 img:hover {
@@ -116,21 +116,26 @@ img:hover {
 
 #about {
 	display: none;
-	text-transform: uppercase;
+	flex-direction: column;
+	gap: 20px;
+	/*text-transform: uppercase;*/
 	/*height: 100%;*/
 
+	/*max-width: 800px;*/
 	height: 100vh;
+	/*display: flex;*/
+
 	justify-content: center;
 	align-items: center;
 	/*line-height: 100vh;*/
 	text-align: center;
-	text-wrap: normal;
+	/*text-wrap: normal;*/
 
 	cursor: pointer;
 }
 
 #about div {
-	max-width: 80%;
+	max-width: 800px;
 }
 
 #menu {
