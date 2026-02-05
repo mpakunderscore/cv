@@ -1,0 +1,18 @@
+:root.light {
+    color-scheme: light;
+
+    --black-color: ghostwhite;
+    --white-color: #282727;
+}
+
+:root.dark {
+    color-scheme: dark;
+
+    --black-color: #282727;
+    --white-color: ghostwhite;
+}
+
+:root {
+    --link-color: #4d90fe;
+    --hint-color: lightgray;
+}

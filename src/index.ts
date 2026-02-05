@@ -1,17 +1,17 @@
 import './styles/index.css'
 import './who'
 
-const getEl = (id: string): HTMLElement => {
-    const element = document.getElementById(id)
+const getEl = (selector: string): HTMLElement => {
+    const element = document.querySelector<HTMLElement>(selector)
     if (!element) {
-        throw new Error(`Missing element: ${id}`)
+        throw new Error(`Missing element: ${selector}`)
     }
     return element
 }
 
 const openCv = () => {
-    getEl('about').style.display = 'none'
-    getEl('cv').style.display = 'block'
+    getEl('.about').style.display = 'none'
+    getEl('.cv').style.display = 'block'
 }
 
 const emoji = {
@@ -26,7 +26,7 @@ const setTheme = (theme?: 'light' | 'dark') => {
         theme = 'dark'
     }
     document.documentElement.className = theme
-    getEl('color-scheme').innerText = emoji[theme]
+    getEl('.color-scheme').innerText = emoji[theme]
 }
 
 let postfix = ''
@@ -48,7 +48,7 @@ const typesetting = () => {
         }
     }
 
-    getEl('typesetting-last').innerText = postfix
+    getEl('.typesetting-last').innerText = postfix
 
     counter++
 }

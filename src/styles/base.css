@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+
+    /* margin: 50px; */
+    background-color: var(--white-color);
+    color: var(--black-color);
+    font-size: var(--font-base);
+    font-family: 'Open Sans', sans-serif;
+    letter-spacing: 1px;
+}
+
+span {
+    display: block;
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+}
+
+img {
+    position: absolute;
+    top: var(--padding-page);
+    right: var(--padding-page);
+    width: var(--photo-size);
+    margin-right: var(--margin-image-right);
+
+    /* opacity: .1; */
+}
+
+img:hover {
+    opacity: 0.9;
+}
+
+.mobile {
+    display: none;
+}

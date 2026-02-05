@@ -1,0 +1,31 @@
+@media only screen and (width <= 600px) {
+    .mobile {
+        display: block;
+    }
+
+    body {
+        /* background-color: lightblue; */
+
+        /* margin: 40px; */
+    }
+
+    .photo {
+        display: none;
+    }
+
+    .experience {
+        padding-left: 0;
+    }
+
+    .color-scheme {
+        top: var(--color-scheme-offset-mobile);
+        right: var(--color-scheme-offset-mobile);
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--black-color);
+        color: var(--white-color);
+    }
+}

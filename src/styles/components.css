@@ -1,0 +1,48 @@
+.photo {
+    border-radius: var(--photo-radius);
+}
+
+.name {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    font-size: var(--font-name);
+}
+
+.occupation {
+    font-size: var(--font-title);
+}
+
+.occupation a {
+    color: black;
+}
+
+.hint {
+    color: var(--hint-color);
+}
+
+.title {
+    font-weight: bold;
+    font-size: var(--font-title);
+}
+
+.job {
+    /* background-color: #AFEEEE; */
+}
+
+.hidden {
+    /*	color: white; */
+    opacity: 0.05;
+}
+
+.description {
+    /* width: 90%; */
+}
+
+.color-scheme {
+    position: fixed;
+    top: var(--color-scheme-offset);
+    right: var(--color-scheme-offset);
+    cursor: pointer;
+    user-select: none;
+}
