@@ -23,7 +23,7 @@ class UpdateIndexTimestampPlugin {
 
 module.exports = {
     entry: {
-        index: './src/index.ts',
+        index: './src/app/index.ts',
     },
     output: {
         path: path.resolve(repoRoot, 'dist'),

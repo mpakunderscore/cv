@@ -1,8 +1,8 @@
-.cv div {
+[data-view='cv'] div {
     margin-bottom: var(--spacing-section);
 }
 
-.cv {
+[data-view='cv'] {
     display: none;
     position: relative;
     max-width: var(--page-max-width);
@@ -10,24 +10,24 @@
     padding: var(--padding-page);
 }
 
-.about {
+[data-view='about'] {
     /* padding-left: 20px; */
 }
 
-.projects {
+[data-role='projects'] {
     padding-left: var(--spacing-section);
 }
 
-.experience {
+[data-role='experience'] {
     padding-left: var(--spacing-section);
 }
 
-.typesetting {
+[data-role='typesetting'] {
     display: flex;
     flex-direction: row;
 }
 
-.about {
+[data-view='about'] {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -52,23 +52,14 @@
     cursor: pointer;
 }
 
-.about div {
+[data-view='about'] div {
     max-width: var(--about-max-width);
 }
 
-.menu {
-    display: block;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: var(--typesetting-height);
-    font-size: var(--font-menu);
+.is-hidden {
+    display: none !important;
 }
 
-.menu > div {
-    margin: var(--spacing-section);
-    font-weight: 300;
-    letter-spacing: 5px;
-    cursor: pointer;
+.is-visible {
+    display: block !important;
 }

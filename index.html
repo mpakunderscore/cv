@@ -39,13 +39,12 @@
         <!--        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">-->
 
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
 
         <meta name="description" content="CV" />
     </head>
 
     <body>
-        <div class="about" onclick="cv()">
+        <div data-view="about">
             <div>Hello! My name is Pavel Kuzmin.</div>
 
             <div>I'm a Software Engineer passionate about building things.</div>
@@ -55,17 +54,17 @@
             <div>This is just my CV, click to open.</div>
         </div>
 
-        <div class="cv">
-            <div class="color-scheme" onclick="setTheme()">🌚</div>
+        <div data-view="cv">
+            <div data-role="color-scheme">🌚</div>
 
-            <div class="name">
+            <div data-role="name">
                 <!--                <div class="hidden">M</div>-->
                 <div>&nbsp;Pavel A. Kuzmin&nbsp;</div>
             </div>
 
-            <div class="occupation">Software Engineer / Full Stack</div>
+            <div data-role="occupation">Software Engineer / Full Stack</div>
 
-            <div class="contacts">
+            <div data-role="contacts">
                 <span
                     ><a href="mailto:mpakunderscore@gmail.com" target="_blank"
                         >mpakunderscore@gmail.com</a
@@ -83,9 +82,9 @@
                 >
             </div>
 
-            <img class="photo" src="images/photo3.png" alt="Photo" />
+            <img data-role="photo" src="images/photo3.png" alt="Photo" />
 
-            <div class="description">
+            <div data-role="description">
                 I'm a Software Engineer with a strong focus on web and mobile development,
                 experienced in React, Node, TypeScript and mobile. My passion for problem-solving
                 and dedication to continuous learning have led me to work on diverse projects in
@@ -102,21 +101,21 @@
                 <span class="title">Experience:</span>
             </div>
 
-            <div class="experience">
-                <div class="">
+            <div data-role="experience">
+                <div>
                     <span><b>Red Forest:</b> <br class="mobile" />(August 2023 — Now)</span>
                     <span>Founder</span>
                     <span>TypeScript, React, Node, Android, iOS</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span><b>BRBS:</b> <br class="mobile" />(February 2024 — Now)</span>
                     <span>Lead Software Engineer</span>
                     <span>Backends, frontends, mobile, cloud, hardware</span>
                     <span>TypeScript, React, Node</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>Enecuum (remote):</b> <br class="mobile" />(September 2020 — April
                         2023)</span
@@ -126,7 +125,7 @@
                     <span>TypeScript, JavaScript, Kotlin, React, Node</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>Red Crown (contract):</b> <br class="mobile" />(February 2019 —
                         2020)</span
@@ -136,7 +135,7 @@
                     <span>JavaScript, React Native</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>QuestFactory (friends):</b> <br class="mobile" />(March 2017 — October
                         2018)</span
@@ -149,7 +148,7 @@
                     <span>Java, Android, JS, Node, Electron, Raspberry Pi</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>Smart Media Systems:</b> <br class="mobile" />(January 2015 - August
                         2016)</span
@@ -160,14 +159,14 @@
                     <span>Java, Spring, JS, Angular, Android</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span><b>ERPScan:</b> <br class="mobile" />(February 2013 - August 2014)</span>
                     <span>Software Engineer</span>
                     <span>Code analysis tool for searching vulnerabilities in SAP programs</span>
                     <span>Java</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>Digital Security:</b> <br class="mobile" />(September 2011 - February
                         2013)</span
@@ -177,7 +176,7 @@
                     <span>Java</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>Digital Entertainment:</b> <br class="mobile" />(January 2011 -
                         September 2011)</span
@@ -187,7 +186,7 @@
                     <span>Java backend</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>Gamedev startups:</b> <br class="mobile" />(December 2009 - January
                         2011)</span
@@ -197,7 +196,7 @@
                     <span>Java backend, PHP backend</span>
                 </div>
 
-                <div class="">
+                <div>
                     <span
                         ><b>Non-programming jobs:</b> <br class="mobile" />(November 2006 - April
                         2008)</span
@@ -220,8 +219,8 @@
                 <span class="title">Projects:</span>
             </div>
 
-            <div class="projects">
-                <div class="">
+            <div data-role="projects">
+                <div>
                     <span
                         >There is two cookbook apps I made and published on
                         <a href="https://www.producthunt.com/@mpak_/submitted" target="_blank"
@@ -247,12 +246,12 @@
                 </div>
             </div>
 
-            <div class="typesetting">
-                <span class="typesetting-first">02.2025, mpak</span>
-                <span class="typesetting-last"></span>
+            <div data-role="typesetting">
+                <span data-role="typesetting-first">02.2025, mpak</span>
+                <span data-role="typesetting-last"></span>
             </div>
 
-            <div class="">
+            <div>
                 <a href="./cv.pdf" target="_blank">PDF CV 2025</a>
             </div>
 
@@ -264,5 +263,5 @@
         </div>
     </body>
 
-    <script src="dist/index.js?v=9496741ccc93a99bd898"></script>
+    <script src="dist/index.js?v=3ceaa5d5e536c81b2011"></script>
 </html>

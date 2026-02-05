@@ -9,15 +9,15 @@
         /* margin: 40px; */
     }
 
-    .photo {
+    [data-role='photo'] {
         display: none;
     }
 
-    .experience {
+    [data-role='experience'] {
         padding-left: 0;
     }
 
-    .color-scheme {
+    [data-role='color-scheme'] {
         top: var(--color-scheme-offset-mobile);
         right: var(--color-scheme-offset-mobile);
     }

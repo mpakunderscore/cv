@@ -1,24 +1,20 @@
-.photo {
+[data-role='photo'] {
     border-radius: var(--photo-radius);
 }
 
-.name {
+[data-role='name'] {
     display: flex;
     flex-direction: row;
     font-weight: bold;
     font-size: var(--font-name);
 }
 
-.occupation {
+[data-role='occupation'] {
     font-size: var(--font-title);
 }
 
-.occupation a {
+[data-role='occupation'] a {
     color: black;
-}
-
-.hint {
-    color: var(--hint-color);
 }
 
 .title {
@@ -26,20 +22,11 @@
     font-size: var(--font-title);
 }
 
-.job {
-    /* background-color: #AFEEEE; */
-}
-
-.hidden {
-    /*	color: white; */
-    opacity: 0.05;
-}
-
-.description {
+[data-role='description'] {
     /* width: 90%; */
 }
 
-.color-scheme {
+[data-role='color-scheme'] {
     position: fixed;
     top: var(--color-scheme-offset);
     right: var(--color-scheme-offset);
