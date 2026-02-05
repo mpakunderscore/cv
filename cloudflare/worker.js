@@ -59,13 +59,14 @@ const worker = {
             const cf = request.cf || {}
 
             const key = url.searchParams.get('key') || 'default'
+            const clientId = url.searchParams.get('client_id') || null
 
             // Insert visit row
             await env.DB.prepare(
                 `
                     INSERT INTO visits
-                        (ts, key, ip, user_agent, country, city, referer, asn, as_org)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        (ts, key, ip, user_agent, country, city, referer, asn, as_org, client_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 `
             )
                 .bind(
@@ -77,7 +78,8 @@ const worker = {
                     cf.city || null,
                     referer || null,
                     cf.asn || null,
-                    cf.asOrganization || null
+                    cf.asOrganization || null,
+                    clientId
                 )
                 .run()
 
@@ -104,11 +106,35 @@ const worker = {
 
             const totalAll = allResults[0]?.total ?? 0
 
+            const { results: uniqueKeyResults } = await env.DB.prepare(
+                `
+                    SELECT COUNT(DISTINCT client_id) AS total
+                    FROM visits
+                    WHERE key = ? AND client_id IS NOT NULL
+                `
+            )
+                .bind(key)
+                .all()
+
+            const uniqueForKey = uniqueKeyResults[0]?.total ?? 0
+
+            const { results: uniqueAllResults } = await env.DB.prepare(
+                `
+                    SELECT COUNT(DISTINCT client_id) AS total
+                    FROM visits
+                    WHERE client_id IS NOT NULL
+                `
+            ).all()
+
+            const uniqueAll = uniqueAllResults[0]?.total ?? 0
+
             return new Response(
                 JSON.stringify({
                     key,
                     totalForKey,
                     totalAll,
+                    uniqueForKey,
+                    uniqueAll,
                 }),
                 {
                     headers: {
