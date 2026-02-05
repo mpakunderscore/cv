@@ -1,23 +1,25 @@
 :root.light {
     color-scheme: light;
+
     --black-color: ghostwhite;
     --white-color: #282727;
 }
 
 :root.dark {
     color-scheme: dark;
+
     --black-color: #282727;
     --white-color: ghostwhite;
 }
 
 body {
     margin: 0;
-    /*margin: 50px;*/
+
+    /* margin: 50px; */
     background-color: var(--white-color);
     color: var(--black-color);
     font-size: 16px;
     font-family: 'Open Sans', sans-serif;
-
     letter-spacing: 1px;
 }
 
@@ -40,7 +42,8 @@ img {
     right: 50px;
     width: 150px;
     margin-right: 50px;
-    /*opacity: .1;*/
+
+    /* opacity: .1; */
 }
 
 img:hover {
@@ -80,7 +83,7 @@ img:hover {
 }
 
 #about {
-    /*padding-left: 20px;*/
+    /* padding-left: 20px; */
 }
 
 #projects {
@@ -92,11 +95,11 @@ img:hover {
 }
 
 .job {
-    /*background-color: #AFEEEE;*/
+    /* background-color: #AFEEEE; */
 }
 
 .hidden {
-    /*	color: white;*/
+    /*	color: white; */
     opacity: 0.05;
 }
 
@@ -117,18 +120,23 @@ img:hover {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*display: flex;*/
+
+    /* display: flex; */
 
     justify-content: center;
-    /*text-transform: uppercase;*/
-    /*height: 100%;*/
 
-    /*max-width: 800px;*/
+    /* text-transform: uppercase; */
+
+    /* height: 100%; */
+
+    /* max-width: 800px; */
     height: 100vh;
     gap: 20px;
-    /*line-height: 100vh;*/
+
+    /* line-height: 100vh; */
     text-align: center;
-    /*text-wrap: normal;*/
+
+    /* text-wrap: normal; */
 
     cursor: pointer;
 }
@@ -140,12 +148,10 @@ img:hover {
 #menu {
     display: block;
     flex-direction: column;
-
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 100vh;
-
     font-size: 40px;
 }
 
@@ -153,12 +159,11 @@ img:hover {
     margin: 20px;
     font-weight: 300;
     letter-spacing: 5px;
-
     cursor: pointer;
 }
 
 #description {
-    /*width: 90%;*/
+    /* width: 90%; */
 }
 
 #color-scheme {
@@ -169,17 +174,21 @@ img:hover {
     user-select: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (width <= 600px) {
     .mobile {
         display: block;
     }
+
     body {
-        /*background-color: lightblue;*/
-        /*margin: 40px;*/
+        /* background-color: lightblue; */
+
+        /* margin: 40px; */
     }
+
     #photo {
         display: none;
     }
+
     #experience {
         padding-left: 0;
     }

@@ -1,14 +1,15 @@
 import './styles/index.css'
+import './who'
 
 const getEl = (id: string): HTMLElement => {
-    const el = document.getElementById(id)
-    if (!el) {
+    const element = document.getElementById(id)
+    if (!element) {
         throw new Error(`Missing element: ${id}`)
     }
-    return el
+    return element
 }
 
-const cv = () => {
+const openCv = () => {
     getEl('about').style.display = 'none'
     getEl('cv').style.display = 'block'
 }
@@ -62,5 +63,5 @@ declare global {
     }
 }
 
-window.cv = cv
+window.cv = openCv
 window.setTheme = setTheme
