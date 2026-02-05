@@ -2,8 +2,9 @@ const http = require('http')
 const fs = require('fs')
 const path = require('path')
 
-const port = Number(process.env.PORT || 3000)
-const root = path.resolve(__dirname, 'dist')
+const port = Number(process.env.PORT || 4000)
+const root = path.resolve(__dirname)
+const distRoot = path.join(root, 'dist')
 
 const mimeTypes = {
     '.html': 'text/html; charset=utf-8',
@@ -26,9 +27,17 @@ const server = http.createServer((req, res) => {
         pathname = '/index.html'
     }
 
-    const filePath = path.join(root, pathname)
+    let baseRoot = root
+    let relativePath = pathname.replace(/^\/+/, '')
 
-    if (!filePath.startsWith(root)) {
+    if (pathname.startsWith('/dist/')) {
+        baseRoot = distRoot
+        relativePath = pathname.slice('/dist/'.length)
+    }
+
+    const filePath = path.join(baseRoot, relativePath)
+
+    if (!filePath.startsWith(baseRoot)) {
         res.statusCode = 403
         res.end('Forbidden')
         return
