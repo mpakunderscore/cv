@@ -1,218 +1,268 @@
-<!DOCTYPE html>
+<!doctype html>
 
 <html lang="en" class="dark">
-
     <head>
-		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-FS8WCTL443"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag(){dataLayer.push(arguments);}
-			gtag('js', new Date());
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-FS8WCTL443"></script>
+        <script>
+            window.dataLayer = window.dataLayer || []
+            function gtag() {
+                dataLayer.push(arguments)
+            }
+            gtag('js', new Date())
 
-			gtag('config', 'G-FS8WCTL443');
-		</script>
+            gtag('config', 'G-FS8WCTL443')
+        </script>
 
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, viewport-fit=cover, user-scalable=no, minimal-ui">
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, height=device-height, initial-scale=1, viewport-fit=cover, user-scalable=no, minimal-ui"
+        />
 
-		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,600" rel="stylesheet" type="text/css">
+        <link
+            href="https://fonts.googleapis.com/css?family=Open+Sans:300,600"
+            rel="stylesheet"
+            type="text/css"
+        />
 
-		<title>Pavel K</title>
+        <title>Pavel K</title>
 
-		<link rel="shortcut icon" type="image/png" href="/images/favicon.png">
-<!--		<link rel="manifest" href="manifest.json">-->
+        <link rel="shortcut icon" type="image/png" href="/images/favicon.png" />
+        <!--        <link rel="manifest" href="manifest.json">-->
 
-		<meta name="theme-color" content="#000">
-		<meta name="theme" content="#000">
+        <meta name="theme-color" content="#000" />
+        <meta name="theme" content="#000" />
 
-		<meta name="apple-mobile-web-app-status-bar-style" content="white-translucent">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-<!--		<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">-->
+        <meta name="apple-mobile-web-app-status-bar-style" content="white-translucent" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <!--        <link rel="apple-touch-icon" href="/images/apple-touch-icon.png">-->
 
-		<meta name="mobile-web-app-capable" content="yes"/>
-		<meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
 
-		<link href="styles/index.css?v5" rel="stylesheet" type="text/css">
-		<meta name="description" content="CV">
-	</head>
+        <meta name="description" content="CV" />
+    </head>
 
     <body>
+        <div id="about" onclick="cv()">
+            <div>Hello! My name is Pavel Kuzmin.</div>
 
-		<div id="about" onclick="cv()">
-			<div>
-				Hello! My name is Pavel Kuzmin.
-			</div>
+            <div>I'm a Software Engineer passionate about building things.</div>
 
-			<div>
-				I'm a Software Engineer passionate about building things.
-			</div>
+            <div>Gamedev, Web, AI, some BCI and robotics.</div>
 
-			<div>
-				This is just my CV, somewhere there are links from my Apps in stores and other services.
-			</div>
+            <div>This is just my CV, click to open.</div>
+        </div>
 
-		</div>
+        <div id="cv">
+            <div id="color-scheme" onclick="setTheme()">🌚</div>
 
-		<div id="menu">
-			<div onclick="about()">ABOUT</div>
-			<div onclick="cv()">CV</div>
-		</div>
+            <div id="name">
+                <!--                <div class="hidden">M</div>-->
+                <div>&nbsp;Pavel A. Kuzmin&nbsp;</div>
+            </div>
 
-		<div id="cv">
+            <div id="occupation">Software Engineer / Full Stack</div>
 
-			<div id="color-scheme" onclick="setTheme()">🌚</div>
+            <div id="contacts">
+                <span
+                    ><a href="mailto:mpakunderscore@gmail.com" target="_blank"
+                        >mpakunderscore@gmail.com</a
+                    ></span
+                >
+                <span
+                    ><a href="https://linkedin.com/in/pavelkuzmin" target="_blank"
+                        >linkedin.com/in/pavelkuzmin</a
+                    ></span
+                >
+                <span
+                    ><a href="https://github.com/mpakunderscore" target="_blank"
+                        >github.com/mpakunderscore</a
+                    ></span
+                >
+            </div>
 
-			<div id="name">
-<!--				<div class="hidden">M</div>-->
-				<div>&nbsp;Pavel A. Kuzmin&nbsp;</div>
-			</div>
+            <img id="photo" src="images/photo3.png" alt="Photo" />
 
-			<div id="occupation">
-				Software Engineer / Full Stack
-			</div>
+            <div id="description">
+                I'm a Software Engineer with a strong focus on web and mobile development,
+                experienced in React, Node, TypeScript and mobile. My passion for problem-solving
+                and dedication to continuous learning have led me to work on diverse projects in
+                various industries. I'm enthusiastic about human-computer interaction, BCI and AI.
+                Always open to new challenges and opportunities, feel free to connect with me.
+            </div>
 
-			<div id="contacts">
-				<span><a href="mailto:mpakunderscore@gmail.com" target="_blank">mpakunderscore@gmail.com</a></span>
-				<span><a href="https://linkedin.com/in/pavelkuzmin" target="_blank">linkedin.com/in/pavelkuzmin</a></span>
-				<span><a href="https://github.com/mpakunderscore" target="_blank">github.com/mpakunderscore</a></span>
-			</div>
+            <div>
+                <span class="title">Skills:</span>
+                <span>React, Node, Postgres, TypeScript, CSS</span>
+            </div>
 
-			<img id="photo" src="images/photo3.png" alt="Photo">
+            <div>
+                <span class="title">Experience:</span>
+            </div>
 
-			<div id="description">
-				I'm a Software Engineer with a strong focus on web and mobile development, experienced in React, Node, TypeScript and mobile. My passion for problem-solving and dedication to continuous learning have led me to work on diverse projects in various industries. I'm enthusiastic about human-computer interaction, BCI and AI. Always open to new challenges and opportunities, feel free to connect with me.
-			</div>
+            <div id="experience">
+                <div class="">
+                    <span><b>Red Forest:</b> <br class="mobile" />(August 2023 — Now)</span>
+                    <span>Founder</span>
+                    <span>TypeScript, React, Node, Android, iOS</span>
+                </div>
 
-			<div>
-				<span class="title">Skills:</span>
-				<span>React, Node, Postgres, TypeScript, CSS</span>
-			</div>
+                <div class="">
+                    <span><b>BRBS:</b> <br class="mobile" />(February 2024 — Now)</span>
+                    <span>Lead Software Engineer</span>
+                    <span>Backends, frontends, mobile, cloud, hardware</span>
+                    <span>TypeScript, React, Node</span>
+                </div>
 
-			<div>
-				<span class="title">Experience:</span>
-			</div>
+                <div class="">
+                    <span
+                        ><b>Enecuum (remote):</b> <br class="mobile" />(September 2020 — April
+                        2023)</span
+                    >
+                    <span>Software Engineer</span>
+                    <span>Development (mobile and web)</span>
+                    <span>TypeScript, JavaScript, Kotlin, React, Node</span>
+                </div>
 
-			<div id="experience">
+                <div class="">
+                    <span
+                        ><b>Red Crown (contract):</b> <br class="mobile" />(February 2019 —
+                        2020)</span
+                    >
+                    <span>Software Engineer</span>
+                    <span>Mobile development</span>
+                    <span>JavaScript, React Native</span>
+                </div>
 
-				<div class="">
-					<span><b>Red Forest:</b> <br class="mobile"/>(August 2023 — Now)</span>
-					<span>Founder</span>
-					<span>TypeScript, React, Node, Android, iOS</span>
-				</div>
+                <div class="">
+                    <span
+                        ><b>QuestFactory (friends):</b> <br class="mobile" />(March 2017 — October
+                        2018)</span
+                    >
+                    <span>Software Engineer</span>
+                    <span
+                        >Mobile applications, websites, utilities for raspberry, escape game
+                        server</span
+                    >
+                    <span>Java, Android, JS, Node, Electron, Raspberry Pi</span>
+                </div>
 
-				<div class="">
-					<span><b>BRBS:</b> <br class="mobile"/>(February 2024 — Now)</span>
-					<span>Lead Software Engineer</span>
-					<span>Backends, frontends, mobile, cloud, hardware</span>
-					<span>TypeScript, React, Node</span>
-				</div>
+                <div class="">
+                    <span
+                        ><b>Smart Media Systems:</b> <br class="mobile" />(January 2015 - August
+                        2016)</span
+                    >
+                    <span>Lead Software Engineer (small team)</span>
+                    <span>Media content distribution system, media server</span>
+                    <span>Project management, Development</span>
+                    <span>Java, Spring, JS, Angular, Android</span>
+                </div>
 
-				<div class="">
-					<span><b>Enecuum (remote):</b> <br class="mobile"/>(September 2020 — April 2023)</span>
-					<span>Software Engineer</span>
-					<span>Development (mobile and web)</span>
-					<span>TypeScript, JavaScript, Kotlin, React, Node</span>
-				</div>
+                <div class="">
+                    <span><b>ERPScan:</b> <br class="mobile" />(February 2013 - August 2014)</span>
+                    <span>Software Engineer</span>
+                    <span>Code analysis tool for searching vulnerabilities in SAP programs</span>
+                    <span>Java</span>
+                </div>
 
-				<div class="">
-					<span><b>Red Crown (contract):</b> <br class="mobile"/>(February 2019 — 2020)</span>
-					<span>Software Engineer</span>
-					<span>Mobile development</span>
-					<span>JavaScript, React Native</span>
-				</div>
+                <div class="">
+                    <span
+                        ><b>Digital Security:</b> <br class="mobile" />(September 2011 - February
+                        2013)</span
+                    >
+                    <span>Software Engineer</span>
+                    <span>Development of tools for searching vulnerabilities in SAP</span>
+                    <span>Java</span>
+                </div>
 
-				<div class="">
-					<span><b>QuestFactory (friends):</b> <br class="mobile"/>(March 2017 — October 2018)</span>
-					<span>Software Engineer</span>
-					<span>Mobile applications, websites, utilities for raspberry, escape game server</span>
-					<span>Java, Android, JS, Node, Electron, Raspberry Pi</span>
-				</div>
+                <div class="">
+                    <span
+                        ><b>Digital Entertainment:</b> <br class="mobile" />(January 2011 -
+                        September 2011)</span
+                    >
+                    <span>Software Developer</span>
+                    <span>Several web apps and games</span>
+                    <span>Java backend</span>
+                </div>
 
-				<div class="">
-					<span><b>Smart Media Systems:</b> <br class="mobile"/>(January 2015 - August 2016)</span>
-					<span>Lead Software Engineer (small team)</span>
-					<span>Media content distribution system, media server</span>
-					<span>Project management, Development</span>
-					<span>Java, Spring, JS, Angular, Android</span>
-				</div>
+                <div class="">
+                    <span
+                        ><b>Gamedev startups:</b> <br class="mobile" />(December 2009 - January
+                        2011)</span
+                    >
+                    <span>Game Developer</span>
+                    <span>Server-side programming, billing</span>
+                    <span>Java backend, PHP backend</span>
+                </div>
 
-				<div class="">
-					<span><b>ERPScan:</b> <br class="mobile"/>(February 2013 - August 2014)</span>
-					<span>Software Engineer</span>
-					<span>Code analysis tool for searching vulnerabilities in SAP programs</span>
-					<span>Java</span>
-				</div>
+                <div class="">
+                    <span
+                        ><b>Non-programming jobs:</b> <br class="mobile" />(November 2006 - April
+                        2008)</span
+                    >
+                    <span
+                        >Two works related to servers administration, assembling and other stuff
+                        like this</span
+                    >
+                    <span>Linux, FreeBSD, LAN</span>
+                </div>
+            </div>
 
-				<div class="">
-					<span><b>Digital Security:</b> <br class="mobile"/>(September 2011 - February 2013)</span>
-					<span>Software Engineer</span>
-					<span>Development of tools for searching vulnerabilities in SAP</span>
-					<span>Java</span>
-				</div>
+            <div>
+                <span class="title">Interests:</span>
+                <span>Human–computer interaction, Problem solving, BCI</span>
+                <span>Music, Travel, Snowboarding, Enduro, Food</span>
+            </div>
 
-				<div class="">
-					<span><b>Digital Entertainment:</b> <br class="mobile"/>(January 2011 - September 2011)</span>
-					<span>Software Developer</span>
-					<span>Several web apps and games</span>
-					<span>Java backend</span>
-				</div>
+            <div>
+                <span class="title">Projects:</span>
+            </div>
 
-				<div class="">
-					<span><b>Gamedev startups:</b> <br class="mobile"/>(December 2009 - January 2011)</span>
-					<span>Game Developer</span>					
-					<span>Server-side programming, billing</span>
-					<span>Java backend, PHP backend</span>
-				</div>
+            <div id="projects">
+                <div class="">
+                    <span
+                        >There is two cookbook apps I made and published on
+                        <a href="https://www.producthunt.com/@mpak_/submitted" target="_blank"
+                            >producthunt.com</a
+                        ></span
+                    >
+                    <span
+                        >App for stress relief that we made with group of psychologists
+                        <a href="https://faino.app" target="_blank">faino.app</a></span
+                    >
+                    <span
+                        >Sometimes I also try to make a service for education
+                        <a href="https://know.software" target="_blank">know.software</a></span
+                    >
+                    <span
+                        >Collects various information about neural engineering (alpha)
+                        <a href="https://bci.events" target="_blank">bci.events</a></span
+                    >
+                    <span
+                        >Small project of a small quadruped robot on BLDC (research)
+                        <a href="https://folker.digital" target="_blank">folker.digital</a></span
+                    >
+                </div>
+            </div>
 
-				<div class="">
-					<span><b>Non-programming jobs:</b> <br class="mobile"/>(November 2006 - April 2008)</span>
-					<span>Two works related to servers administration, assembling and other stuff like this</span>
-					<span>Linux, FreeBSD, LAN</span>
-				</div>
-			</div>
+            <div id="typesetting">
+                <span id="typesetting-first">02.2025, mpak</span>
+                <span id="typesetting-last"></span>
+            </div>
 
-			<div>
-				<span class="title">Interests:</span>
-				<span>Human–computer interaction, Problem solving, BCI</span>
-				<span>Music, Travel, Snowboarding, Enduro, Food</span>
-			</div>
+            <div class="">
+                <a href="./cv.pdf" target="_blank">PDF CV 2025</a>
+            </div>
 
-			<div>
-				<span class="title">Projects:</span>
-			</div>
+            <!--            <div class="hidden">-->
+            <!--                Want some easter egg? No way, too boring person for this-->
+            <!--            </div>-->
 
-			<div id="projects">
-
-				<div class="">
-					<span>There is two cookbook apps I made and published on <a href="https://www.producthunt.com/@mpak_/submitted" target="_blank">producthunt.com</a></span>
-					<span>App for stress relief that we made with group of psychologists <a href="https://faino.app" target="_blank">faino.app</a></span>
-					<span>Sometimes I also try to make a service for education <a href="https://know.software" target="_blank">know.software</a></span>
-					<span>Collects various information about neural engineering (alpha) <a href="https://bci.events" target="_blank">bci.events</a></span>
-					<span>Small project of a small quadruped robot on BLDC (research) <a href="https://folker.digital" target="_blank">folker.digital</a></span>
-				</div>
-
-			</div>
-
-			<div id="typesetting">
-				<span id="typesetting-first">02.2025, mpak</span>
-				<span id="typesetting-last"></span>
-			</div>
-
-			<div class="">
-				<a href="./cv.pdf" target="_blank">PDF CV 2025</a>
-			</div>
-
-<!--			<div class="hidden">-->
-<!--				Want some easter egg? No way, too boring person for this-->
-<!--			</div>-->
-
-<!--			<div>Three problems: continuous learning process, full neural interface, freedom of digital creatures.</div>-->
-
-		</div>
-
+            <!--            <div>Three problems: continuous learning process, full neural interface, freedom of digital creatures.</div>-->
+        </div>
     </body>
 
-	<script src="src/index.js?v3"></script>
-
+    <script src="dist/index.js?v=d07eed61920ccdb1dc1c"></script>
 </html>
