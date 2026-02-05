@@ -33,3 +33,19 @@
     cursor: pointer;
     user-select: none;
 }
+
+[data-role='debug'] {
+    position: fixed;
+    bottom: var(--spacing-section);
+    left: var(--spacing-section);
+    max-width: 60vw;
+    font-size: 12px;
+    line-height: 1.4;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+[data-role='debug-build'] div,
+[data-role='counter'] {
+    white-space: pre-wrap;
+}

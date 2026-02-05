@@ -5,6 +5,8 @@ export const CONFIG = {
         colorScheme: '[data-role="color-scheme"]',
         typesettingLast: '[data-role="typesetting-last"]',
         counter: '[data-role="counter"]',
+        debug: '[data-role="debug"]',
+        debugBuild: '[data-role="debug-build"]',
     },
     classes: {
         hidden: 'is-hidden',

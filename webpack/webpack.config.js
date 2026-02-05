@@ -1,5 +1,9 @@
 const fs = require('fs')
 const path = require('path')
+const { execSync } = require('child_process')
+const webpack = require('webpack')
+
+const PACKAGE = require('../package.json')
 
 const repoRoot = path.resolve(__dirname, '..')
 
@@ -33,6 +37,9 @@ module.exports = {
     },
     resolve: {
         extensions: ['.ts', '.js'],
+        alias: {
+            '@': path.resolve(repoRoot, 'src'),
+        },
     },
     module: {
         rules: [
@@ -47,7 +54,16 @@ module.exports = {
             },
         ],
     },
-    plugins: [new UpdateIndexTimestampPlugin()],
+    plugins: [
+        new webpack.DefinePlugin({
+            BUILD: JSON.stringify({
+                packageVersion: PACKAGE.version || '0.0.0',
+                gitCommit: execSync('git rev-parse --short HEAD').toString().trim().toUpperCase(),
+                buildTime: new Date().toISOString(),
+            }),
+        }),
+        new UpdateIndexTimestampPlugin(),
+    ],
     watchOptions: {
         ignored: /index\\.html$/,
     },

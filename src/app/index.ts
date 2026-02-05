@@ -1,9 +1,15 @@
-import '../styles/index.css'
+import '@/styles/index.css'
 
-import { CONFIG, UI_TEXT } from '../lib/config'
-import { addClass, onClick, queryOptional, removeClass } from '../lib/dom'
-import { createTypesetting } from '../lib/typesetting'
-import { initCounter } from '../lib/who'
+import { CONFIG, UI_TEXT } from '@/lib/config'
+import { addClass, onClick, queryOptional, removeClass } from '@/lib/dom'
+import { createTypesetting } from '@/lib/typesetting'
+import { initCounter } from '@/lib/who'
+
+declare const BUILD: {
+    packageVersion: string
+    gitCommit: string
+    buildTime: string
+}
 
 const createThemeController = (button: HTMLElement | null) => {
     if (!button) return
@@ -39,6 +45,8 @@ const init = () => {
     const cvEl = queryOptional<HTMLElement>(CONFIG.selectors.cv)
     const colorSchemeButton = queryOptional<HTMLElement>(CONFIG.selectors.colorScheme)
     const typesettingTarget = queryOptional<HTMLElement>(CONFIG.selectors.typesettingLast)
+    const debugContainer = queryOptional<HTMLElement>(CONFIG.selectors.debug)
+    const debugBuildContainer = queryOptional<HTMLElement>(CONFIG.selectors.debugBuild)
 
     createCvToggle(aboutEl, cvEl)
     createThemeController(colorSchemeButton)
@@ -47,6 +55,25 @@ const init = () => {
     typesetting.start()
 
     void initCounter()
+    renderDebugInfo(debugContainer, debugBuildContainer)
+}
+
+const renderDebugInfo = (container: HTMLElement | null, buildTarget: HTMLElement | null) => {
+    if (!container || !buildTarget) return
+
+    const lines = [
+        BUILD.packageVersion,
+        BUILD.gitCommit,
+        new Date(BUILD.buildTime).toLocaleString(),
+    ]
+
+    const fragment = document.createDocumentFragment()
+    for (const value of lines) {
+        const line = document.createElement('div')
+        line.innerText = value
+        fragment.appendChild(line)
+    }
+    buildTarget.appendChild(fragment)
 }
 
 if (document.readyState === 'loading') {
