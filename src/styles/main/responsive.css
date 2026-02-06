@@ -11,6 +11,48 @@
         top: var(--space-color-scheme-offset-mobile);
         right: var(--space-color-scheme-offset-mobile);
     }
+
+    .about-screen {
+        grid-template: repeat(4, minmax(0, 1fr)) / 1fr;
+        background-image: none;
+    }
+
+    .about-screen-tile {
+        border-bottom: 1px solid var(--md-sys-color-outline-variant);
+    }
+
+    .about-screen-tile:last-of-type {
+    }
+
+    .about-screen-tile-cv,
+    .about-screen-tile-blog,
+    .about-screen-tile-intro {
+        align-items: center;
+        justify-content: center;
+    }
+
+    .about-screen-tile-cta {
+        align-items: flex-start;
+        justify-content: left;
+        text-align: left;
+    }
+
+    .about-screen-tile-cta {
+        order: 1;
+        text-align: left;
+    }
+
+    .about-screen-tile-cv {
+        order: 2;
+    }
+
+    .about-screen-tile-blog {
+        order: 3;
+    }
+
+    .about-screen-tile-intro {
+        order: 4;
+    }
 }
 
 @media (prefers-color-scheme: dark) {
