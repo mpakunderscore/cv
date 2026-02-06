@@ -1,7 +1,18 @@
 :root {
-    --photo-size: 150px;
-    --photo-radius: 3px;
-    --page-max-width: 800px;
-    --about-max-width: 800px;
-    --typesetting-height: 100vh;
+    --size-1: 4px;
+    --size-2: 8px;
+    --size-3: 12px;
+    --size-4: 16px;
+    --size-5: 20px;
+    --size-6: 24px;
+    --size-7: 32px;
+    --size-8: 40px;
+    --size-9: 48px;
+    --size-10: 64px;
+
+    --size-photo: 160px;
+    --size-photo-radius: var(--size-1);
+    --size-content-max-width: 800px;
+    --size-about-content-max-width: 800px;
+    --size-typesetting-height: 100dvh;
 }

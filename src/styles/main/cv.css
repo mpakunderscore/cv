@@ -1,13 +1,13 @@
 .cv-screen div {
-    margin-bottom: var(--spacing-section);
+    margin-bottom: var(--space-section);
 }
 
 .cv-screen {
     display: none;
     position: relative;
-    max-width: var(--page-max-width);
+    max-width: var(--size-content-max-width);
     margin: auto;
-    padding: var(--padding-page);
+    padding: var(--space-page-padding);
 }
 
 .cv-screen.is-visible {
@@ -16,7 +16,7 @@
 
 [data-role='projects'],
 [data-role='experience'] {
-    padding-left: var(--spacing-section);
+    padding-left: var(--space-section);
 }
 
 [data-role='typesetting'] {
@@ -25,7 +25,7 @@
 }
 
 [data-role='photo'] {
-    border-radius: var(--photo-radius);
+    border-radius: var(--size-photo-radius);
 }
 
 [data-role='name'] {
@@ -40,7 +40,7 @@
 }
 
 [data-role='occupation'] a {
-    color: var(--black-color);
+    color: var(--md-sys-color-on-surface);
 }
 
 .title {

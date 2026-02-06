@@ -1,15 +1,14 @@
 :root {
-    --spacing-section: 20px;
-    --padding-page: 50px;
-    --gap-about: 20px;
-    --margin-image-right: 50px;
-    --about-text-offset: 40px;
-    --color-scheme-offset: 20px;
-    --color-scheme-offset-mobile: 50px;
+    --space-section: var(--size-6);
+    --space-page-padding: var(--size-9);
+    --space-photo-offset-inline-end: var(--size-9);
+    --space-about-content-offset: var(--size-8);
+    --space-color-scheme-offset: var(--size-6);
+    --space-color-scheme-offset-mobile: var(--size-8);
 }
 
 @media only screen and (width <= 600px) {
     :root {
-        --about-text-offset: 20px;
+        --space-about-content-offset: var(--size-5);
     }
 }

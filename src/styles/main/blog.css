@@ -1,9 +1,9 @@
 .blog-screen {
     display: none;
     position: relative;
-    max-width: var(--page-max-width);
+    max-width: var(--size-content-max-width);
     margin: auto;
-    padding: var(--padding-page);
+    padding: var(--space-page-padding);
 }
 
 .blog-screen.is-visible {
@@ -11,7 +11,7 @@
 }
 
 .blog-screen > div {
-    margin-bottom: var(--spacing-section);
+    margin-bottom: var(--space-section);
 }
 
 .blog-screen-title {

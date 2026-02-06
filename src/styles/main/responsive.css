@@ -8,14 +8,14 @@
     }
 
     [data-role='color-scheme'] {
-        top: var(--color-scheme-offset-mobile);
-        right: var(--color-scheme-offset-mobile);
+        top: var(--space-color-scheme-offset-mobile);
+        right: var(--space-color-scheme-offset-mobile);
     }
 }
 
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: var(--black-color);
-        color: var(--white-color);
+        background-color: var(--md-sys-color-surface);
+        color: var(--md-sys-color-on-surface);
     }
 }

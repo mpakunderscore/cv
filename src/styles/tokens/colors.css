@@ -1,21 +1,21 @@
 :root.light {
     color-scheme: light;
 
-    --black-color: ghostwhite;
-    --white-color: #343434;
-    --about-line-color: rgb(0 0 0 / 5%);
-    --about-hover-bg: rgb(255 255 255 / 14%);
+    --md-sys-color-surface: ghostwhite;
+    --md-sys-color-on-surface: #282727;
+    --md-sys-color-primary: #0b57d0;
+    --md-sys-color-on-primary: white;
+    --md-sys-color-outline-variant: rgb(0 0 0 / 12%);
+    --md-sys-color-surface-container: rgb(0 0 0 / 4%);
 }
 
 :root.dark {
     color-scheme: dark;
 
-    --black-color: #282727;
-    --white-color: ghostwhite;
-    --about-line-color: rgb(255 255 255 / 5%);
-    --about-hover-bg: rgb(0 0 0 / 4%);
-}
-
-:root {
-    --link-color: #4d90fe;
+    --md-sys-color-surface: #343434;
+    --md-sys-color-on-surface: ghostwhite;
+    --md-sys-color-primary: #8ab4f8;
+    --md-sys-color-on-primary: #001b3f;
+    --md-sys-color-outline-variant: rgb(0 0 0 / 10%);
+    --md-sys-color-surface-container: rgb(255 255 255 / 14%);
 }

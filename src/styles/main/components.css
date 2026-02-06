@@ -1,16 +1,16 @@
 [data-role='color-scheme'] {
     z-index: var(--z-color-scheme);
     position: fixed;
-    top: var(--color-scheme-offset);
-    right: var(--color-scheme-offset);
+    top: var(--space-color-scheme-offset);
+    right: var(--space-color-scheme-offset);
     cursor: pointer;
     user-select: none;
 }
 
 [data-role='debug'] {
     position: fixed;
-    bottom: var(--spacing-section);
-    left: var(--spacing-section);
+    bottom: var(--space-section);
+    left: var(--space-section);
     max-width: 60vw;
     font-size: 12px;
     line-height: 1.4;
