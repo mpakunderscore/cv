@@ -1,0 +1,55 @@
+[data-view='cv'] div {
+    margin-bottom: var(--spacing-section);
+}
+
+[data-view='cv'] {
+    display: none;
+    position: relative;
+    max-width: var(--page-max-width);
+    margin: auto;
+    padding: var(--padding-page);
+}
+
+[data-role='projects'],
+[data-role='experience'] {
+    padding-left: var(--spacing-section);
+}
+
+[data-role='typesetting'] {
+    display: flex;
+    flex-direction: row;
+}
+
+[data-role='photo'] {
+    border-radius: var(--photo-radius);
+}
+
+[data-role='name'] {
+    display: flex;
+    flex-direction: row;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-name);
+}
+
+[data-role='occupation'] {
+    font-size: var(--font-title);
+}
+
+[data-role='occupation'] a {
+    color: var(--black-color);
+}
+
+.title {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-title);
+}
+
+@media only screen and (width <= 600px) {
+    [data-role='photo'] {
+        display: none;
+    }
+
+    [data-role='experience'] {
+        padding-left: 0;
+    }
+}

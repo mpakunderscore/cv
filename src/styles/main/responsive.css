@@ -1,0 +1,33 @@
+@media only screen and (width <= 600px) {
+    .mobile {
+        display: block;
+    }
+
+    body {
+        letter-spacing: var(--letter-spacing-mobile);
+    }
+
+    [data-role='color-scheme'] {
+        top: var(--color-scheme-offset-mobile);
+        right: var(--color-scheme-offset-mobile);
+    }
+
+    [data-view='about'] {
+        /* width: calc(100vw - 32px); */
+
+        /* height: calc(100vh - 32px); */
+
+        /* margin: 16px auto; */
+    }
+
+    [data-role='about-tile'] {
+        padding: 20px;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: var(--black-color);
+        color: var(--white-color);
+    }
+}

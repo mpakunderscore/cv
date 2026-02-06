@@ -1,18 +1,22 @@
 body {
+    width: 100dvw;
+    height: 100dvh;
     margin: 0;
-
-    /* margin: 50px; */
     background-color: var(--white-color);
     color: var(--black-color);
-    font-size: var(--font-base);
-    font-family: 'Open Sans', sans-serif;
-    letter-spacing: 1px;
-    line-height: 1.5;
-    text-rendering: optimizelegibility;
-    -webkit-font-smoothing: antialiased;
     transition:
         background-color 200ms ease,
         color 200ms ease;
+}
+
+body {
+    font-weight: var(--font-weight-regular);
+    font-size: var(--font-base);
+    line-height: var(--line-height-base);
+    font-family: var(--font-family-base), serif;
+    letter-spacing: var(--letter-spacing-base);
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
 }
 
 html {
@@ -33,14 +37,12 @@ a:focus-visible {
     outline-offset: 2px;
 }
 
-img {
+img.photo {
     position: absolute;
     top: var(--padding-page);
     right: var(--padding-page);
     width: var(--photo-size);
     margin-right: var(--margin-image-right);
-
-    /* opacity: .1; */
 }
 
 img:hover {

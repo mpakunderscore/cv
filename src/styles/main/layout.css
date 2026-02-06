@@ -1,0 +1,92 @@
+[data-view='about'] {
+    display: grid;
+    z-index: 1;
+    position: fixed;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100vw;
+    height: 100dvh;
+    inset: 0;
+    background-image:
+        linear-gradient(
+            to right,
+            transparent calc(50% - 1px),
+            var(--about-line-color) calc(50% - 1px),
+            var(--about-line-color) calc(50% + 1px),
+            transparent calc(50% + 1px)
+        ),
+        linear-gradient(
+            to bottom,
+            transparent calc(50% - 1px),
+            var(--about-line-color) calc(50% - 1px),
+            var(--about-line-color) calc(50% + 1px),
+            transparent calc(50% + 1px)
+        );
+    background-repeat: no-repeat;
+    text-align: center;
+    cursor: default;
+}
+
+[data-role='about-tile'] {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    transition: background-color 200ms ease;
+}
+
+[data-role='about-tile'][data-clickable='true'] {
+    cursor: pointer;
+}
+
+[data-role='about-tile'][data-clickable='true']:hover {
+    background-color: var(--about-hover-bg);
+}
+
+[data-role='about-tile'][data-tile='cv'] {
+    align-items: flex-end;
+    justify-content: flex-end;
+    transform: translateY(6px);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-about-tile);
+    line-height: var(--line-height-tightest);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+[data-role='about-tile'][data-tile='blog'] {
+    align-items: flex-start;
+    justify-content: flex-start;
+    transform: translateY(4px);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-about-tile);
+    line-height: var(--line-height-tight);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+[data-role='about-tile'][data-tile='intro'],
+[data-role='about-tile'][data-tile='cta'] {
+    align-items: flex-end;
+    justify-content: flex-start;
+    max-width: var(--about-max-width);
+    margin: 0 auto;
+    font-size: var(--font-base);
+    line-height: 1.6;
+}
+
+[data-role='about-tile'][data-tile='cta'] {
+    align-items: flex-start;
+    justify-content: flex-end;
+    margin: 0 auto 0 var(--about-text-offset);
+    text-align: left;
+}
+
+.is-hidden {
+    display: none !important;
+}
+
+.is-visible {
+    display: block !important;
+}

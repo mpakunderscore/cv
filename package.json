@@ -3,9 +3,11 @@
     "private": true,
     "version": "0.0.2",
     "scripts": {
-        "build": "webpack --config webpack/webpack.config.js --mode=production",
-        "build:dev": "webpack --config webpack/webpack.config.js --mode=development",
-        "watch": "webpack --config webpack/webpack.config.js --mode=development --watch",
+
+        "build": "npm run build:html && webpack --config webpack/webpack.config.js --mode=production",
+        "build:dev": "npm run build:html && webpack --config webpack/webpack.config.js --mode=development",
+        "build:html": "node config/build-html.js",
+        "watch": "npm run build:html && webpack --config webpack/webpack.config.js --mode=development --watch",
         "start": "node server.js",
         "lint": "npm run lint:format && npm run lint:js && npm run lint:css",
         "lint:format": "prettier --config config/.prettierrc --write . --ignore-path config/.prettierignore",

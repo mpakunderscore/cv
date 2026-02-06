@@ -1,8 +1,8 @@
 import '@/styles/index.css'
 
+import { initCvPage } from '@/app/cv'
 import { CONFIG, UI_TEXT } from '@/lib/config'
-import { addClass, onClick, queryOptional, removeClass } from '@/lib/dom'
-import { createTypesetting } from '@/lib/typesetting'
+import { onClick, queryOptional } from '@/lib/dom'
 import { initCounter } from '@/lib/who'
 
 declare const BUILD: {
@@ -11,13 +11,13 @@ declare const BUILD: {
     buildTime: string
 }
 
-const createThemeController = (button: HTMLElement | null) => {
-    if (!button) return
+const createThemeController = (themeToggleButton: HTMLElement | null) => {
+    if (!themeToggleButton) return
 
     const applyTheme = (theme: 'light' | 'dark') => {
         document.documentElement.classList.remove('light', 'dark')
         document.documentElement.classList.add(theme)
-        button.innerText = UI_TEXT.emoji[theme]
+        themeToggleButton.innerText = UI_TEXT.emoji[theme]
     }
 
     const toggleTheme = () => {
@@ -25,37 +25,29 @@ const createThemeController = (button: HTMLElement | null) => {
         applyTheme(isDark ? 'light' : 'dark')
     }
 
-    onClick(button, toggleTheme)
+    onClick(themeToggleButton, toggleTheme)
 }
 
-const createCvToggle = (aboutEl: HTMLElement | null, cvEl: HTMLElement | null) => {
-    if (!aboutEl || !cvEl) return
+const createBlogLink = (blogTileButton: HTMLElement | null) => {
+    if (!blogTileButton) return
 
-    const openCv = () => {
-        addClass(aboutEl, CONFIG.classes.hidden)
-        addClass(cvEl, CONFIG.classes.visible)
-        removeClass(cvEl, CONFIG.classes.hidden)
-    }
-
-    onClick(aboutEl, openCv)
+    onClick(blogTileButton, () => {
+        window.location.href = '/blog'
+    })
 }
 
 const init = () => {
-    const aboutEl = queryOptional<HTMLElement>(CONFIG.selectors.about)
-    const cvEl = queryOptional<HTMLElement>(CONFIG.selectors.cv)
-    const colorSchemeButton = queryOptional<HTMLElement>(CONFIG.selectors.colorScheme)
-    const typesettingTarget = queryOptional<HTMLElement>(CONFIG.selectors.typesettingLast)
-    const debugContainer = queryOptional<HTMLElement>(CONFIG.selectors.debug)
-    const debugBuildContainer = queryOptional<HTMLElement>(CONFIG.selectors.debugBuild)
+    const blogTileButton = queryOptional<HTMLElement>(CONFIG.selectors.aboutBlogTile)
+    const themeToggleButton = queryOptional<HTMLElement>(CONFIG.selectors.colorScheme)
+    const debugPanel = queryOptional<HTMLElement>(CONFIG.selectors.debug)
+    const debugBuildPanel = queryOptional<HTMLElement>(CONFIG.selectors.debugBuild)
 
-    createCvToggle(aboutEl, cvEl)
-    createThemeController(colorSchemeButton)
-
-    const typesetting = createTypesetting(typesettingTarget)
-    typesetting.start()
+    initCvPage()
+    createBlogLink(blogTileButton)
+    createThemeController(themeToggleButton)
 
     void initCounter()
-    renderDebugInfo(debugContainer, debugBuildContainer)
+    renderDebugInfo(debugPanel, debugBuildPanel)
 }
 
 const renderDebugInfo = (container: HTMLElement | null, buildTarget: HTMLElement | null) => {

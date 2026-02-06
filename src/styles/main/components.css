@@ -1,36 +1,8 @@
-[data-role='photo'] {
-    border-radius: var(--photo-radius);
-}
-
-[data-role='name'] {
-    display: flex;
-    flex-direction: row;
-    font-weight: bold;
-    font-size: var(--font-name);
-}
-
-[data-role='occupation'] {
-    font-size: var(--font-title);
-}
-
-[data-role='occupation'] a {
-    color: black;
-}
-
-.title {
-    font-weight: bold;
-    font-size: var(--font-title);
-}
-
-[data-role='description'] {
-    /* width: 90%; */
-}
-
 [data-role='color-scheme'] {
+    z-index: var(--z-color-scheme);
     position: fixed;
     top: var(--color-scheme-offset);
     right: var(--color-scheme-offset);
-    z-index: 10;
     cursor: pointer;
     user-select: none;
 }

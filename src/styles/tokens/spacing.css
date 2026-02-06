@@ -1,0 +1,15 @@
+:root {
+    --spacing-section: 20px;
+    --padding-page: 50px;
+    --gap-about: 20px;
+    --margin-image-right: 50px;
+    --about-text-offset: 40px;
+    --color-scheme-offset: 20px;
+    --color-scheme-offset-mobile: 50px;
+}
+
+@media only screen and (width <= 600px) {
+    :root {
+        --about-text-offset: 20px;
+    }
+}

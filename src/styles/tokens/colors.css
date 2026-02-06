@@ -2,7 +2,9 @@
     color-scheme: light;
 
     --black-color: ghostwhite;
-    --white-color: #282727;
+    --white-color: #343434;
+    --about-line-color: rgb(0 0 0 / 60%);
+    --about-hover-bg: rgb(255 255 255 / 14%);
 }
 
 :root.dark {
@@ -10,6 +12,8 @@
 
     --black-color: #282727;
     --white-color: ghostwhite;
+    --about-line-color: rgb(0 0 0 / 20%);
+    --about-hover-bg: rgb(0 0 0 / 4%);
 }
 
 :root {

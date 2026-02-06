@@ -2,6 +2,8 @@ export const CONFIG = {
     selectors: {
         about: '[data-view="about"]',
         cv: '[data-view="cv"]',
+        aboutCvTile: '[data-role="about-tile"][data-tile="cv"]',
+        aboutBlogTile: '[data-role="about-tile"][data-tile="blog"]',
         colorScheme: '[data-role="color-scheme"]',
         typesettingLast: '[data-role="typesetting-last"]',
         counter: '[data-role="counter"]',

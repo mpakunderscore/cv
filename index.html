@@ -47,13 +47,15 @@
         <div data-role="color-scheme">🌚</div>
 
         <div data-view="about">
-            <div>Hello! My name is Pavel Kuzmin.</div>
-
-            <div>I'm a Software Engineer passionate about building things.</div>
-
-            <div>Gamedev, Web, AI, some BCI and robotics.</div>
-
-            <div>This is just my CV, click to open.</div>
+            <div data-role="about-tile" data-tile="cv" data-clickable="true">CV</div>
+            <div data-role="about-tile" data-tile="cta">
+                <div>Hello! My name is Pavel Kuzmin.</div>
+                <div>I'm a Software Engineer passionate about building things.</div>
+                <div>Gamedev, Web, AI, some BCI and robotics.</div>
+                <div>This is just my CV, click to open.</div>
+            </div>
+            <div data-role="about-tile" data-tile="intro"></div>
+            <div data-role="about-tile" data-tile="blog" data-clickable="true">BLOG</div>
         </div>
 
         <div data-view="cv">
@@ -82,7 +84,7 @@
                 >
             </div>
 
-            <img data-role="photo" src="images/photo3.png" alt="Photo" />
+            <img class="photo" data-role="photo" src="images/photo3.png" alt="Photo" />
 
             <div data-role="description">
                 I'm a Software Engineer with a strong focus on web and mobile development,
@@ -268,5 +270,5 @@
         </div>
     </body>
 
-    <script src="dist/index.js?v=5332e6b7aff8811af7f4"></script>
+    <script src="dist/index.js?v=a0a99d47b934d837bf1a?v=a0a99d47b934d837bf1a"></script>
 </html>
