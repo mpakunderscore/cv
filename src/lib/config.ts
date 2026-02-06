@@ -3,6 +3,8 @@ export const CONFIG = {
         about: '.about-screen',
         blog: '.blog-screen',
         cv: '.cv-screen',
+        cvBackButton: '.cv-back-button',
+        blogBackButton: '.blog-back-button',
         aboutCvTile: '.about-screen-tile-cv',
         aboutBlogTile: '.about-screen-tile-blog',
         colorScheme: '[data-role="color-scheme"]',
@@ -17,6 +19,8 @@ export const CONFIG = {
     },
     timings: {
         typesettingMs: 500,
+        cvOpenMs: 420,
+        blogOpenMs: 420,
     },
 } as const
 

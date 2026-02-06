@@ -8,10 +8,33 @@
     max-width: var(--size-content-max-width);
     margin: auto;
     padding: var(--space-page-padding);
+    opacity: 0;
 }
 
 .cv-screen.is-visible {
     display: block;
+}
+
+.cv-screen.cv-screen-entering {
+    transition: opacity 280ms ease;
+}
+
+.cv-screen.cv-screen-entered {
+    opacity: 1;
+}
+
+.cv-back-button {
+    position: fixed;
+    right: var(--space-section);
+    bottom: var(--space-section);
+    border: 0;
+    background: transparent;
+    color: var(--md-sys-color-on-surface);
+    cursor: pointer;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-title);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
 
 [data-role='projects'],

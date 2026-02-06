@@ -45,10 +45,16 @@ const init = () => {
 const renderDebugInfo = (container: HTMLElement | null, buildTarget: HTMLElement | null) => {
     if (!container || !buildTarget) return
 
+    const buildDate = new Date(BUILD.buildTime).toLocaleDateString('en-US', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    })
+
     const lines = [
         BUILD.packageVersion,
         BUILD.gitCommit,
-        new Date(BUILD.buildTime).toLocaleString(),
+        buildDate,
     ]
 
     const fragment = document.createDocumentFragment()

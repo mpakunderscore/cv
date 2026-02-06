@@ -4,10 +4,19 @@
     max-width: var(--size-content-max-width);
     margin: auto;
     padding: var(--space-page-padding);
+    opacity: 0;
 }
 
 .blog-screen.is-visible {
     display: block;
+}
+
+.blog-screen.blog-screen-entering {
+    transition: opacity 280ms ease;
+}
+
+.blog-screen.blog-screen-entered {
+    opacity: 1;
 }
 
 .blog-screen > div {
@@ -17,4 +26,18 @@
 .blog-screen-title {
     font-weight: var(--font-weight-bold);
     font-size: var(--font-name);
+}
+
+.blog-back-button {
+    position: fixed;
+    right: var(--space-section);
+    bottom: var(--space-section);
+    border: 0;
+    background: transparent;
+    color: var(--md-sys-color-on-surface);
+    cursor: pointer;
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-title);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
 }
