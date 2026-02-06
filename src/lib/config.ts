@@ -1,9 +1,10 @@
 export const CONFIG = {
     selectors: {
-        about: '[data-view="about"]',
-        cv: '[data-view="cv"]',
-        aboutCvTile: '[data-role="about-tile"][data-tile="cv"]',
-        aboutBlogTile: '[data-role="about-tile"][data-tile="blog"]',
+        about: '.about-screen',
+        blog: '.blog-screen',
+        cv: '.cv-screen',
+        aboutCvTile: '.about-screen-tile-cv',
+        aboutBlogTile: '.about-screen-tile-blog',
         colorScheme: '[data-role="color-scheme"]',
         typesettingLast: '[data-role="typesetting-last"]',
         counter: '[data-role="counter"]',

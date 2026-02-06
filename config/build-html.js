@@ -36,9 +36,19 @@ const renderTemplate = (filePath, chain = []) => {
     })
 }
 
-const renderedHtml = `${renderTemplate(templatePath).trimEnd()}\n`
-fs.writeFileSync(outputPath, renderedHtml)
+const buildHtml = () => {
+    const renderedHtml = `${renderTemplate(templatePath).trimEnd()}\n`
+    fs.writeFileSync(outputPath, renderedHtml)
 
-console.log(
-    `Built ${path.relative(repoRoot, outputPath)} from ${path.relative(repoRoot, templatePath)}`
-)
+    console.log(
+        `Built ${path.relative(repoRoot, outputPath)} from ${path.relative(repoRoot, templatePath)}`
+    )
+}
+
+if (require.main === module) {
+    buildHtml()
+}
+
+module.exports = {
+    buildHtml,
+}

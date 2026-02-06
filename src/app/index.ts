@@ -1,5 +1,6 @@
 import '@/styles/index.css'
 
+import { initBlogPage } from '@/app/blog'
 import { initCvPage } from '@/app/cv'
 import { CONFIG, UI_TEXT } from '@/lib/config'
 import { onClick, queryOptional } from '@/lib/dom'
@@ -28,22 +29,13 @@ const createThemeController = (themeToggleButton: HTMLElement | null) => {
     onClick(themeToggleButton, toggleTheme)
 }
 
-const createBlogLink = (blogTileButton: HTMLElement | null) => {
-    if (!blogTileButton) return
-
-    onClick(blogTileButton, () => {
-        window.location.href = '/blog'
-    })
-}
-
 const init = () => {
-    const blogTileButton = queryOptional<HTMLElement>(CONFIG.selectors.aboutBlogTile)
     const themeToggleButton = queryOptional<HTMLElement>(CONFIG.selectors.colorScheme)
     const debugPanel = queryOptional<HTMLElement>(CONFIG.selectors.debug)
     const debugBuildPanel = queryOptional<HTMLElement>(CONFIG.selectors.debugBuild)
 
     initCvPage()
-    createBlogLink(blogTileButton)
+    initBlogPage()
     createThemeController(themeToggleButton)
 
     void initCounter()

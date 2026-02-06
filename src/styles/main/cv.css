@@ -1,13 +1,17 @@
-[data-view='cv'] div {
+.cv-screen div {
     margin-bottom: var(--spacing-section);
 }
 
-[data-view='cv'] {
+.cv-screen {
     display: none;
     position: relative;
     max-width: var(--page-max-width);
     margin: auto;
     padding: var(--padding-page);
+}
+
+.cv-screen.is-visible {
+    display: block;
 }
 
 [data-role='projects'],

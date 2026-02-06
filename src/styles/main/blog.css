@@ -1,0 +1,20 @@
+.blog-screen {
+    display: none;
+    position: relative;
+    max-width: var(--page-max-width);
+    margin: auto;
+    padding: var(--padding-page);
+}
+
+.blog-screen.is-visible {
+    display: block;
+}
+
+.blog-screen > div {
+    margin-bottom: var(--spacing-section);
+}
+
+.blog-screen-title {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-name);
+}

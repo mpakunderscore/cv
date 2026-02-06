@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const { execSync } = require('child_process')
 const webpack = require('webpack')
+const { buildHtml } = require('../config/build-html')
 
 const PACKAGE = require('../package.json')
 
@@ -21,6 +22,24 @@ class UpdateIndexTimestampPlugin {
             if (nextHtml !== html) {
                 fs.writeFileSync(indexPath, nextHtml)
             }
+        })
+    }
+}
+
+class BuildHtmlPlugin {
+    apply(compiler) {
+        const htmlRoot = path.resolve(repoRoot, 'src/html')
+
+        compiler.hooks.beforeRun.tap('BuildHtmlPlugin', () => {
+            buildHtml()
+        })
+
+        compiler.hooks.watchRun.tap('BuildHtmlPlugin', () => {
+            buildHtml()
+        })
+
+        compiler.hooks.thisCompilation.tap('BuildHtmlPlugin', (compilation) => {
+            compilation.contextDependencies.add(htmlRoot)
         })
     }
 }
@@ -55,6 +74,7 @@ module.exports = {
         ],
     },
     plugins: [
+        new BuildHtmlPlugin(),
         new webpack.DefinePlugin({
             BUILD: JSON.stringify({
                 packageVersion: PACKAGE.version || '0.0.0',
@@ -65,6 +85,8 @@ module.exports = {
         new UpdateIndexTimestampPlugin(),
     ],
     watchOptions: {
-        ignored: /index\\.html$/,
+        aggregateTimeout: 200,
+        poll: 700,
+        ignored: /node_modules|index\\.html$/,
     },
 }
