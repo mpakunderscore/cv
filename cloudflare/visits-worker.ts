@@ -1,8 +1,45 @@
+type D1PreparedStatement = {
+    bind: (...values: unknown[]) => D1PreparedStatement
+    all: <T = Record<string, unknown>>() => Promise<{ results: T[] }>
+    run: () => Promise<unknown>
+}
+
+type D1Database = {
+    prepare: (query: string) => D1PreparedStatement
+}
+
+type WorkerEnv = {
+    DB: D1Database
+    ADMIN_TOKEN?: string
+}
+
+type RequestWithCf = Request & {
+    cf?: {
+        country?: string
+        city?: string
+        asn?: number
+        asOrganization?: string
+    }
+}
+
+type VisitCounterRow = {
+    total?: number
+}
+
+const jsonHeaders = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+}
+
+const jsonResponse = (body: unknown): Response =>
+    new Response(JSON.stringify(body), {
+        headers: jsonHeaders,
+    })
+
 const worker = {
-    fetch: async (request, env, ctx) => {
+    fetch: async (request: Request, env: WorkerEnv): Promise<Response> => {
         const url = new URL(request.url)
 
-        // 1. API: return recent visits as JSON (admin only)
         if (url.pathname === '/api/visits' && request.method === 'GET') {
             const adminToken = env.ADMIN_TOKEN
             const headerToken = request.headers.get('X-Admin-Token')
@@ -12,43 +49,35 @@ const worker = {
             }
 
             const limitParam = url.searchParams.get('limit') || '100'
-            const limit = Math.min(parseInt(limitParam, 10) || 100, 1000)
+            const parsedLimit = Number.parseInt(limitParam, 10)
+            const limit = Math.min(Number.isFinite(parsedLimit) ? parsedLimit : 100, 1000)
             const keyFilter = url.searchParams.get('key')
 
-            let statement
-            if (keyFilter) {
-                statement = env.DB.prepare(
-                    `
+            const statement = keyFilter
+                ? env.DB.prepare(
+                      `
                     SELECT ts, key, ip, country, city, referer, user_agent, asn, as_org
                     FROM visits
                     WHERE key = ?
                     ORDER BY id DESC
                     LIMIT ?
                 `
-                ).bind(keyFilter, limit)
-            } else {
-                statement = env.DB.prepare(
-                    `
+                  ).bind(keyFilter, limit)
+                : env.DB.prepare(
+                      `
                     SELECT ts, key, ip, country, city, referer, user_agent, asn, as_org
                     FROM visits
                     ORDER BY id DESC
                     LIMIT ?
                 `
-                ).bind(limit)
-            }
+                  ).bind(limit)
 
             const { results } = await statement.all()
-
-            return new Response(JSON.stringify(results), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': '*',
-                },
-            })
+            return jsonResponse(results)
         }
 
-        // 2. API: hit endpoint by key (log + counters)
         if (url.pathname === '/api/hit' && request.method === 'GET') {
+            const requestWithCf = request as RequestWithCf
             const ip =
                 request.headers.get('CF-Connecting-IP') ||
                 request.headers.get('x-forwarded-for') ||
@@ -56,12 +85,11 @@ const worker = {
 
             const userAgent = request.headers.get('User-Agent') || ''
             const referer = request.headers.get('Referer') || ''
-            const cf = request.cf || {}
+            const cf = requestWithCf.cf || {}
 
             const key = url.searchParams.get('key') || 'default'
             const clientId = url.searchParams.get('client_id') || null
 
-            // Insert visit row
             await env.DB.prepare(
                 `
                     INSERT INTO visits
@@ -83,7 +111,6 @@ const worker = {
                 )
                 .run()
 
-            // Count total for this key
             const { results: keyResults } = await env.DB.prepare(
                 `
                     SELECT COUNT(*) AS total
@@ -92,17 +119,16 @@ const worker = {
                 `
             )
                 .bind(key)
-                .all()
+                .all<VisitCounterRow>()
 
             const totalForKey = keyResults[0]?.total ?? 0
 
-            // Count total for all keys
             const { results: allResults } = await env.DB.prepare(
                 `
                     SELECT COUNT(*) AS total
                     FROM visits
                 `
-            ).all()
+            ).all<VisitCounterRow>()
 
             const totalAll = allResults[0]?.total ?? 0
 
@@ -114,7 +140,7 @@ const worker = {
                 `
             )
                 .bind(key)
-                .all()
+                .all<VisitCounterRow>()
 
             const uniqueForKey = uniqueKeyResults[0]?.total ?? 0
 
@@ -124,28 +150,19 @@ const worker = {
                     FROM visits
                     WHERE client_id IS NOT NULL
                 `
-            ).all()
+            ).all<VisitCounterRow>()
 
             const uniqueAll = uniqueAllResults[0]?.total ?? 0
 
-            return new Response(
-                JSON.stringify({
-                    key,
-                    totalForKey,
-                    totalAll,
-                    uniqueForKey,
-                    uniqueAll,
-                }),
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': '*',
-                    },
-                }
-            )
+            return jsonResponse({
+                key,
+                totalForKey,
+                totalAll,
+                uniqueForKey,
+                uniqueAll,
+            })
         }
 
-        // For all other routes just proxy to origin (GitHub Pages or other)
         return fetch(request)
     },
 }

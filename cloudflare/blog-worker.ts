@@ -81,8 +81,19 @@ const loadDotEnvIfAvailable = async (): Promise<void> => {
     }
 
     try {
-        const dotenv = await import('dotenv')
-        dotenv.config()
+        const runtimeNode = globalThis as typeof globalThis & {
+            process?: {
+                versions?: {
+                    node?: string
+                }
+            }
+        }
+
+        if (runtimeNode.process?.versions?.node) {
+            const nodeRequire = new Function('return require')() as (id: string) => { config?: () => unknown }
+            const dotenvModule = nodeRequire('dotenv')
+            dotenvModule.config?.()
+        }
     } catch {
         // Skip when dotenv is not installed in runtime.
     }
