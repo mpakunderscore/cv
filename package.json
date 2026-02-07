@@ -5,6 +5,7 @@
     "scripts": {
         "build": "webpack --config webpack/webpack.config.js --mode=production",
         "build:dev": "webpack --config webpack/webpack.config.js --mode=development",
+        "build:workers": "webpack --config webpack/webpack.cloudflare.config.js --mode=none",
         "build:html": "node config/build-html.js",
         "watch": "webpack --config webpack/webpack.config.js --mode=development --watch",
         "start": "node server.js",
@@ -13,12 +14,9 @@
         "lint:js": "eslint --config config/eslint.config.mjs src --fix",
         "lint:css": "npx stylelint \"src/**/*.css\" --fix --config config/stylelint.config.cjs --ignore-path config/.stylelintignore"
     },
-    "dependencies": {
-        "dotenv": "^17.2.3",
-        "openai": "^6.18.0"
-    },
     "devDependencies": {
         "css-loader": "^6.10.0",
+        "dotenv": "^17.2.3",
         "eslint": "^9.39.2",
         "eslint-import-resolver-typescript": "^4.4.4",
         "eslint-plugin-import": "^2.32.0",
@@ -26,6 +24,7 @@
         "eslint-plugin-react-hooks": "^7.0.1",
         "eslint-plugin-unicorn": "^62.0.0",
         "globals": "^15.11.0",
+        "openai": "^6.18.0",
         "prettier": "^3.8.0",
         "prettier-plugin-css-order": "^2.2.0",
         "style-loader": "^4.0.0",
