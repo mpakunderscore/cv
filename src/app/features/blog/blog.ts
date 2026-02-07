@@ -1,4 +1,7 @@
-import { BLOG_POSTS } from '@/app/features/blog/blog-posts'
+import type { BlogGenerateResponse } from '@/app/api/blog-api'
+import { createBlogGenerateController } from '@/app/features/blog/blog-generate-controller'
+import { createBlogGeneratedPostsStorageController } from '@/app/features/blog/blog-generated-posts-storage-controller'
+import { BLOG_POSTS, type BlogPost } from '@/app/features/blog/blog-posts'
 import { CONFIG } from '@/lib/config'
 import { queryOptional } from '@/lib/dom'
 
@@ -9,8 +12,9 @@ const TOP_POST_ORIGINAL_TITLE = BLOG_POSTS[TOP_POST_INDEX]?.title ?? ''
 const TOP_POST_ORIGINAL_PARAGRAPHS = [...(BLOG_POSTS[TOP_POST_INDEX]?.paragraphs ?? [])]
 const TOP_POST_ORIGINAL_BODY = TOP_POST_ORIGINAL_PARAGRAPHS.join(' ')
 const RUN_RESET_TIMEOUT_MS = 2000
-const RUN_REQUEST_URL = 'https://httpbin.org/post'
 const RUN_BUTTON_TEXT = 'GENERATE'
+const generatedBlogPosts: BlogPost[] = []
+const generatedPostsStorageController = createBlogGeneratedPostsStorageController()
 
 const shuffle = <T>(items: T[]) => {
     for (let index = items.length - 1; index > 0; index -= 1) {
@@ -21,6 +25,16 @@ const shuffle = <T>(items: T[]) => {
     }
 
     return items
+}
+
+const setTagButtonState = (tagButton: HTMLButtonElement, isActive: boolean) => {
+    tagButton.classList.toggle('is-active', isActive)
+    tagButton.setAttribute('aria-pressed', String(isActive))
+}
+
+const toggleTagButtonState = (tagButton: HTMLButtonElement) => {
+    const isActive = !tagButton.classList.contains('is-active')
+    setTagButtonState(tagButton, isActive)
 }
 
 const setContentEditableState = (node: HTMLElement, isEditable: boolean) => {
@@ -86,27 +100,70 @@ const lockFormsTemporarily = () => {
     }
 }
 
-const runPostRequest = async (title: string, body: string) => {
-    try {
-        await fetch(RUN_REQUEST_URL, {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json',
-            },
-            body: JSON.stringify({
-                body,
-                requestedAt: new Date().toISOString(),
-                title,
-            }),
-        })
-    } catch {
-        // Ignore network errors; UI flow is time-based.
+const getActivePostTags = (postNode: HTMLElement): string[] => {
+    const tagButtonNodes = Array.from(postNode.querySelectorAll<HTMLButtonElement>('.blog-tag'))
+
+    return tagButtonNodes
+        .filter((tagButton) => tagButton.classList.contains('is-active'))
+        .map((tagButton) => normalizeText(tagButton.innerText).toLowerCase())
+        .filter((tag) => tag.length > 0)
+}
+
+const toGeneratedBlogPost = (generatedPost: BlogGenerateResponse): BlogPost | null => {
+    const normalizedTitle = normalizeText(generatedPost.title)
+    const normalizedParagraphs = generatedPost.paragraphs
+        .map((paragraph) => normalizeText(paragraph))
+        .filter((paragraph) => paragraph.length > 0)
+    const normalizedTags = [...new Set(generatedPost.tags.map((tag) => normalizeText(tag).toLowerCase()))].filter(
+        (tag) => tag.length > 0,
+    )
+
+    if (normalizedTitle.length === 0 || normalizedParagraphs.length === 0) {
+        return null
     }
+
+    return {
+        id: normalizeText(generatedPost.id) || `generated-${Date.now()}`,
+        paragraphs: normalizedParagraphs,
+        tags: normalizedTags,
+        title: normalizedTitle,
+    }
+}
+
+const getBlogPostsForRender = (): BlogPost[] => {
+    const topPost = BLOG_POSTS[TOP_POST_INDEX]
+    const staticPosts = BLOG_POSTS.slice(TOP_POST_INDEX + 1)
+
+    if (!topPost) {
+        return [...generatedBlogPosts, ...staticPosts]
+    }
+
+    return [topPost, ...generatedBlogPosts, ...staticPosts]
+}
+
+const saveGeneratedPosts = () => {
+    generatedPostsStorageController.saveGeneratedPosts(generatedBlogPosts)
+}
+
+const loadGeneratedPosts = () => {
+    const storedPosts = generatedPostsStorageController.loadGeneratedPosts()
+    generatedBlogPosts.splice(0, generatedBlogPosts.length, ...storedPosts)
+}
+
+const upsertGeneratedPost = (post: BlogPost) => {
+    const existingPostIndex = generatedBlogPosts.findIndex((generatedPost) => generatedPost.id === post.id)
+    if (existingPostIndex >= 0) {
+        generatedBlogPosts.splice(existingPostIndex, 1)
+    }
+
+    generatedBlogPosts.unshift(post)
+    saveGeneratedPosts()
 }
 
 const initTopPostEditing = (postNode: HTMLElement, titleNode: HTMLElement, bodyTextNode: HTMLElement) => {
     let isHovered = false
     let isRunning = false
+    const blogGenerateController = createBlogGenerateController()
 
     const hasFocusWithin = (node: HTMLElement) => {
         const activeNode = document.activeElement
@@ -164,7 +221,7 @@ const initTopPostEditing = (postNode: HTMLElement, titleNode: HTMLElement, bodyT
     runButton.addEventListener('mouseleave', setRunButtonDefaultText)
     runButton.addEventListener('blur', setRunButtonDefaultText)
 
-    runButton.addEventListener('click', () => {
+    const runPostGenerate = async () => {
         if (isRunning) return
 
         isRunning = true
@@ -173,15 +230,48 @@ const initTopPostEditing = (postNode: HTMLElement, titleNode: HTMLElement, bodyT
         updateEditableState()
 
         const unlockForms = lockFormsTemporarily()
-        void runPostRequest(titleNode.innerText.trim(), normalizeText(bodyTextNode.innerText))
+        const requestStartedAtMs = Date.now()
+
+        let generatedPost: BlogGenerateResponse | null = null
+        try {
+            generatedPost = await blogGenerateController.generatePostFromDraft({
+                body: normalizeText(bodyTextNode.innerText),
+                requiredTags: getActivePostTags(postNode),
+                title: titleNode.innerText.trim(),
+            })
+        } catch {
+            generatedPost = null
+        }
+
+        const requestElapsedMs = Date.now() - requestStartedAtMs
+        const resetDelayMs = Math.max(0, RUN_RESET_TIMEOUT_MS - requestElapsedMs)
 
         window.setTimeout(() => {
+            let hasAddedGeneratedPost = false
+            if (generatedPost) {
+                const generatedBlogPost = toGeneratedBlogPost(generatedPost)
+                if (generatedBlogPost) {
+                    upsertGeneratedPost(generatedBlogPost)
+                    hasAddedGeneratedPost = true
+                }
+            }
+
             unlockForms()
+
+            if (hasAddedGeneratedPost) {
+                rerenderBlogPosts()
+                return
+            }
+
             postNode.classList.remove('blog-post-running')
             isRunning = false
             setRunButtonDefaultText()
             updateEditableState()
-        }, RUN_RESET_TIMEOUT_MS)
+        }, resetDelayMs)
+    }
+
+    runButton.addEventListener('click', () => {
+        void runPostGenerate()
     })
 
     runButton.addEventListener('keydown', (event) => {
@@ -224,7 +314,9 @@ const renderBlogPosts = (postsPanel: HTMLElement | null) => {
 
     const fragment = document.createDocumentFragment()
 
-    for (const [postIndex, post] of BLOG_POSTS.entries()) {
+    const posts = getBlogPostsForRender()
+
+    for (const [postIndex, post] of posts.entries()) {
         const postNode = document.createElement('article')
         postNode.className = 'blog-post'
 
@@ -244,10 +336,15 @@ const renderBlogPosts = (postsPanel: HTMLElement | null) => {
             const shuffledTags = shuffle([...post.tags])
 
             for (const tag of shuffledTags) {
-                const tagNode = document.createElement('span')
-                tagNode.className = 'blog-tag'
-                tagNode.innerText = tag
-                tagsNode.appendChild(tagNode)
+                const tagButton = document.createElement('button')
+                tagButton.className = 'blog-tag'
+                tagButton.type = 'button'
+                tagButton.innerText = tag
+                setTagButtonState(tagButton, false)
+                tagButton.addEventListener('click', () => {
+                    toggleTagButtonState(tagButton)
+                })
+                tagsNode.appendChild(tagButton)
             }
 
             headerNode.appendChild(tagsNode)
@@ -282,5 +379,6 @@ export const rerenderBlogPosts = () => {
 }
 
 export const initBlogPage = () => {
+    loadGeneratedPosts()
     rerenderBlogPosts()
 }

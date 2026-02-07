@@ -79,11 +79,29 @@
 }
 
 .blog-tag {
+    border: 0;
     border-radius: 999px;
+    margin: 0;
+    padding: 0;
+    font: inherit;
     font-size: var(--font-small);
     line-height: calc(var(--line-height-base) / 1.5);
     letter-spacing: 0.06em;
+    color: inherit;
+    background: transparent;
     opacity: 0.85;
+    cursor: pointer;
+}
+
+.blog-tag.is-active {
+    opacity: 1;
+    color: var(--md-sys-color-primary);
+    text-shadow: 0 0 8px color-mix(in srgb, var(--md-sys-color-primary) 30%, transparent);
+}
+
+.blog-tag:focus-visible {
+    outline: 1px solid currentcolor;
+    outline-offset: 2px;
 }
 
 .blog-post-body p {

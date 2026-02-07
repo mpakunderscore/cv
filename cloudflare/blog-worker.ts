@@ -2,7 +2,9 @@ import OpenAI from 'openai'
 
 const ALLOWED_TAGS = [
     'ai',
+    'backend',
     'bci',
+    'ci',
     'coding',
     'design',
     'ddsa',
@@ -11,11 +13,15 @@ const ALLOWED_TAGS = [
     'hci',
     'ide',
     'infrastructure',
+    'llm',
     'management',
+    'prompting',
     'product',
+    'research',
     'robotics',
     'simulation',
     'tools',
+    'typescript',
     'ui',
     'ux',
     'web',
@@ -175,11 +181,40 @@ const slugify = (value: string): string =>
         .replace(/-+/g, '-')
         .slice(0, 64)
 
+const hashString = (value: string): number => {
+    let hash = 0
+    for (const character of value) {
+        hash = (hash * 31 + character.charCodeAt(0)) >>> 0
+    }
+    return hash
+}
+
+const ensureTagCount = (tags: AllowedTag[], minCount: number, maxCount: number, seedText: string): AllowedTag[] => {
+    const unique = [...new Set(tags)].slice(0, maxCount) as AllowedTag[]
+    if (unique.length >= minCount) {
+        return unique
+    }
+
+    const missingTags = ALLOWED_TAGS.filter((tag) => !unique.includes(tag))
+    if (missingTags.length === 0) {
+        return unique
+    }
+
+    const seed = hashString(seedText || 'fallback-tags')
+    const startIndex = seed % missingTags.length
+    for (let offset = 0; unique.length < minCount && offset < missingTags.length; offset += 1) {
+        const index = (startIndex + offset) % missingTags.length
+        unique.push(missingTags[index] as AllowedTag)
+    }
+
+    return unique.slice(0, maxCount)
+}
+
 const buildSystemPrompt = (requiredTags: AllowedTag[]): string => {
     const tagsLine =
         requiredTags.length > 0
             ? `TAGS (must use exactly these, no new tags): ${requiredTags.join(', ')}`
-            : 'TAGS: no tag constraints; keep output tags as an empty array and write an abstract post.'
+            : `TAGS: choose 2-3 tags from this allowlist only: ${ALLOWED_TAGS.join(', ')}.`
 
     return [
         'Write an original short blog post for a personal tech blog.',
@@ -196,13 +231,14 @@ const buildSystemPrompt = (requiredTags: AllowedTag[]): string => {
         '',
         'Structure:',
         '- 1 title (3-6 words), slightly provocative, not clickbait.',
-        '- 4-6 paragraphs, each 1-3 sentences.',
+        '- 2-5 paragraphs, each 1-3 sentences.',
         '- No bullet lists.',
         '',
         'Output format:',
         '- Return JSON only.',
         '- Object keys: id, title, tags, paragraphs.',
         '- id must be kebab-case.',
+        '- tags must be an array of 2-3 lowercase values from the allowlist.',
         '- paragraphs must be an array of strings.',
     ].join('\n')
 }
@@ -223,7 +259,10 @@ const sanitizeModelOutput = (
     const paragraphs = (parsedParagraphs.length > 0 ? parsedParagraphs : fallbackParagraphs).slice(0, 6)
 
     const modelTags = normalizeTags(parsed.tags)
-    const tags = requiredTags.length > 0 ? [...requiredTags] : modelTags
+    const tags =
+        requiredTags.length > 0
+            ? [...requiredTags]
+            : ensureTagCount(modelTags, 2, 3, `${title} ${paragraphs.join(' ')}`)
 
     const parsedId = normalizeString(parsed.id, 80)
     const fallbackId = normalizeString(fallbackFields?.id, 80)
@@ -317,10 +356,6 @@ const worker = {
             }
 
             const post = sanitizeModelOutput(parsedModelOutput, requiredTags, fields)
-            if (abstractMode) {
-                post.tags = []
-            }
-
             return jsonResponse(post, 200)
         } catch (error) {
             const message = error instanceof Error ? error.message : 'Unknown OpenAI error'
