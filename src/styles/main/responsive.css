@@ -21,9 +21,6 @@
         border-bottom: 1px solid var(--md-sys-color-outline-variant);
     }
 
-    .about-screen-tile:last-of-type {
-    }
-
     .about-screen-tile-cv,
     .about-screen-tile-blog,
     .about-screen-tile-intro {
@@ -63,9 +60,9 @@
 
     .about-screen-tile-mobile-opening {
         z-index: 3;
-        color: transparent;
+        transform: translateY(var(--about-mobile-open-shift-y, 0)) scaleY(4);
         background-color: var(--md-sys-color-surface);
-        transform: translateY(var(--about-mobile-open-shift-y, 0px)) scaleY(4);
+        color: transparent;
         transition:
             transform 420ms ease,
             background-color 420ms ease,

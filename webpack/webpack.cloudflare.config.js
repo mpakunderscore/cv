@@ -44,7 +44,10 @@ module.exports = {
                 use: {
                     loader: 'ts-loader',
                     options: {
-                        configFile: path.resolve(repoRoot, 'config/tsconfig.webpack.cloudflare.json'),
+                        configFile: path.resolve(
+                            repoRoot,
+                            'config/tsconfig.webpack.cloudflare.json'
+                        ),
                     },
                 },
                 exclude: /node_modules/,

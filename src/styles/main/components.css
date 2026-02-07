@@ -29,8 +29,8 @@
     color: inherit;
     text-decoration: underline;
     text-underline-offset: 2px;
-    opacity: 0.7;
     cursor: pointer;
+    opacity: 0.7;
 }
 
 .debug-font-option:hover {
@@ -38,20 +38,20 @@
 }
 
 .debug-font-option.is-active {
-    opacity: 1;
     text-decoration-thickness: 2px;
+    opacity: 1;
 }
 
 .about-letter-game-target {
     z-index: 20;
     position: fixed;
-    width: 24px;
-    height: 24px;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    transform: translate(-50%, -50%);
     border: 2px solid #ff5b00;
     border-radius: 50%;
-    padding: 0;
     background: rgb(255 91 0 / 16%);
-    transform: translate(-50%, -50%);
     cursor: pointer;
     opacity: 0.5;
 }
@@ -66,5 +66,22 @@
 }
 
 [data-role='debug-gamedev-letter-game'] {
+    position: fixed;
+    top: var(--space-section);
+    left: var(--space-section);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
     color: var(--md-sys-color-primary);
+}
+
+.debug-gamedev-score {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+.debug-gamedev-hint {
+    font-size: 12px;
+    line-height: 1.3;
 }

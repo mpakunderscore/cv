@@ -58,9 +58,9 @@ const restoreBody = (bodyTextNode: HTMLElement) => {
 
 const lockFormsTemporarily = () => {
     const formControlNodes = Array.from(
-        document.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLButtonElement>(
-            'input, textarea, select, button',
-        ),
+        document.querySelectorAll<
+            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | HTMLButtonElement
+        >('input, textarea, select, button')
     )
     const editableNodes = Array.from(document.querySelectorAll<HTMLElement>('[contenteditable]'))
 
@@ -114,9 +114,9 @@ const toGeneratedBlogPost = (generatedPost: BlogGenerateResponse): BlogPost | nu
     const normalizedParagraphs = generatedPost.paragraphs
         .map((paragraph) => normalizeText(paragraph))
         .filter((paragraph) => paragraph.length > 0)
-    const normalizedTags = [...new Set(generatedPost.tags.map((tag) => normalizeText(tag).toLowerCase()))].filter(
-        (tag) => tag.length > 0,
-    )
+    const normalizedTags = [
+        ...new Set(generatedPost.tags.map((tag) => normalizeText(tag).toLowerCase())),
+    ].filter((tag) => tag.length > 0)
 
     if (normalizedTitle.length === 0 || normalizedParagraphs.length === 0) {
         return null
@@ -151,7 +151,9 @@ const loadGeneratedPosts = () => {
 }
 
 const upsertGeneratedPost = (post: BlogPost) => {
-    const existingPostIndex = generatedBlogPosts.findIndex((generatedPost) => generatedPost.id === post.id)
+    const existingPostIndex = generatedBlogPosts.findIndex(
+        (generatedPost) => generatedPost.id === post.id
+    )
     if (existingPostIndex >= 0) {
         generatedBlogPosts.splice(existingPostIndex, 1)
     }
@@ -160,18 +162,25 @@ const upsertGeneratedPost = (post: BlogPost) => {
     saveGeneratedPosts()
 }
 
-const initTopPostEditing = (postNode: HTMLElement, titleNode: HTMLElement, bodyTextNode: HTMLElement) => {
+const initTopPostEditing = (
+    postNode: HTMLElement,
+    titleNode: HTMLElement,
+    bodyTextNode: HTMLElement
+) => {
     let isHovered = false
     let isRunning = false
     const blogGenerateController = createBlogGenerateController()
 
     const hasFocusWithin = (node: HTMLElement) => {
         const activeNode = document.activeElement
-        return activeNode === node || (activeNode instanceof HTMLElement && node.contains(activeNode))
+        return (
+            activeNode === node || (activeNode instanceof HTMLElement && node.contains(activeNode))
+        )
     }
 
     const updateEditableState = () => {
-        const shouldEnableEditing = !isRunning && (isHovered || hasFocusWithin(titleNode) || hasFocusWithin(bodyTextNode))
+        const shouldEnableEditing =
+            !isRunning && (isHovered || hasFocusWithin(titleNode) || hasFocusWithin(bodyTextNode))
         setContentEditableState(titleNode, shouldEnableEditing)
         setContentEditableState(bodyTextNode, shouldEnableEditing)
     }

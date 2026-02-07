@@ -5,7 +5,8 @@ const TOPIC_COPY = {
     web: 'I design web apps that stay fast, clear, and reliable under real user load.',
     ai: 'I use AI where it creates leverage: prototyping faster and automating repetitive thinking.',
     bci: 'I explore BCI through signal quality, interaction design, and practical neurotech constraints.',
-    robotics: 'I like robotics where software meets hardware and precise motion turns into useful behavior.',
+    robotics:
+        'I like robotics where software meets hardware and precise motion turns into useful behavior.',
 } as const
 
 type TopicKey = keyof typeof TOPIC_COPY

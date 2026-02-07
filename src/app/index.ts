@@ -65,11 +65,7 @@ const renderDebugInfo = (container: HTMLElement | null, buildTarget: HTMLElement
         year: 'numeric',
     })
 
-    const lines = [
-        BUILD.packageVersion,
-        BUILD.gitCommit,
-        buildDate,
-    ]
+    const lines = [BUILD.packageVersion, BUILD.gitCommit, buildDate]
 
     const fragment = document.createDocumentFragment()
     for (const value of lines) {

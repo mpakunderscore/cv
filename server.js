@@ -134,7 +134,8 @@ const proxyApiRequest = async (request, response, targetUrl) => {
         })
         const responseBody = Buffer.from(await upstreamResponse.arrayBuffer())
         response.writeHead(upstreamResponse.status, {
-            'Content-Type': upstreamResponse.headers.get('content-type') || 'application/json; charset=utf-8',
+            'Content-Type':
+                upstreamResponse.headers.get('content-type') || 'application/json; charset=utf-8',
         })
         response.end(responseBody)
     } catch {
@@ -157,7 +158,9 @@ const server = http.createServer(async (req, res) => {
         } catch (error) {
             const message = error instanceof Error ? error.message : 'Unknown blog worker error'
             res.writeHead(502, { 'Content-Type': 'application/json; charset=utf-8' })
-            res.end(JSON.stringify({ error: 'Failed to execute local blog worker', details: message }))
+            res.end(
+                JSON.stringify({ error: 'Failed to execute local blog worker', details: message })
+            )
         }
         return
     }

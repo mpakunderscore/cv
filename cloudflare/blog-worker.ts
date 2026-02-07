@@ -96,7 +96,9 @@ const loadDotEnvIfAvailable = async (): Promise<void> => {
         }
 
         if (runtimeNode.process?.versions?.node) {
-            const nodeRequire = new Function('return require')() as (id: string) => { config?: () => unknown }
+            const nodeRequire = new Function('return require')() as (id: string) => {
+                config?: () => unknown
+            }
             const dotenvModule = nodeRequire('dotenv')
             dotenvModule.config?.()
         }
@@ -189,7 +191,12 @@ const hashString = (value: string): number => {
     return hash
 }
 
-const ensureTagCount = (tags: AllowedTag[], minCount: number, maxCount: number, seedText: string): AllowedTag[] => {
+const ensureTagCount = (
+    tags: AllowedTag[],
+    minCount: number,
+    maxCount: number,
+    seedText: string
+): AllowedTag[] => {
     const unique = [...new Set(tags)].slice(0, maxCount) as AllowedTag[]
     if (unique.length >= minCount) {
         return unique
@@ -248,7 +255,8 @@ const sanitizeModelOutput = (
     requiredTags: AllowedTag[],
     fallbackFields: GenerateRequest['fields']
 ): GeneratedPost => {
-    const parsed = typeof rawOutput === 'object' && rawOutput ? (rawOutput as Record<string, unknown>) : {}
+    const parsed =
+        typeof rawOutput === 'object' && rawOutput ? (rawOutput as Record<string, unknown>) : {}
 
     const parsedTitle = normalizeString(parsed.title, 120)
     const fallbackTitle = normalizeString(fallbackFields?.title, 120)
@@ -256,7 +264,10 @@ const sanitizeModelOutput = (
 
     const parsedParagraphs = normalizeParagraphs(parsed.paragraphs)
     const fallbackParagraphs = normalizeParagraphs(fallbackFields?.paragraphs)
-    const paragraphs = (parsedParagraphs.length > 0 ? parsedParagraphs : fallbackParagraphs).slice(0, 6)
+    const paragraphs = (parsedParagraphs.length > 0 ? parsedParagraphs : fallbackParagraphs).slice(
+        0,
+        6
+    )
 
     const modelTags = normalizeTags(parsed.tags)
     const tags =
@@ -272,7 +283,10 @@ const sanitizeModelOutput = (
         id,
         title,
         tags,
-        paragraphs: paragraphs.length > 0 ? paragraphs : ['Describe what you want here or leave blank for random.'],
+        paragraphs:
+            paragraphs.length > 0
+                ? paragraphs
+                : ['Describe what you want here or leave blank for random.'],
     }
 }
 
@@ -352,7 +366,10 @@ const worker = {
             try {
                 parsedModelOutput = JSON.parse(rawContent)
             } catch {
-                return jsonResponse({ error: 'Model returned non-JSON payload', raw: rawContent }, 502)
+                return jsonResponse(
+                    { error: 'Model returned non-JSON payload', raw: rawContent },
+                    502
+                )
             }
 
             const post = sanitizeModelOutput(parsedModelOutput, requiredTags, fields)

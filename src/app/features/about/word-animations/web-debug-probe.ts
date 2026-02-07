@@ -1,10 +1,14 @@
+import {
+    createWebProbeEntries,
+    type ProbeEntry,
+} from '@/app/features/about/word-animations/web-probe-entries'
 import { queryOptional } from '@/lib/dom'
-import { createWebProbeEntries, type ProbeEntry } from '@/app/features/about/word-animations/web-probe-entries'
 
 const WEB_KEYWORD_SELECTOR = '.about-keyword-item-web'
 const DEBUG_BUILD_SELECTOR = '[data-role="debug-build"]'
 const DEBUG_PROBE_ROLE = 'debug-web-probe'
-const APPEND_LINE_INTERVAL_MS = 1000
+// Make Web probe lines appear 3x faster on hover/focus/toggle.
+const APPEND_LINE_INTERVAL_MS = 1000 / 3
 const WEB_PROBE_ACTIVE_CLASS = 'is-probe-active'
 
 export const initWebDebugProbe = () => {

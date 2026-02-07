@@ -4,6 +4,7 @@ const GAMEDEV_KEYWORD_SELECTOR = '.about-keyword-item-gamedev'
 const DEBUG_BUILD_SELECTOR = '[data-role="debug-build"]'
 const DEBUG_GAME_ROLE = 'debug-gamedev-letter-game'
 const LETTER_TARGET_CLASS = 'about-letter-game-target'
+const KEYWORD_ACTIVE_CLASS = 'is-active'
 const GAME_TICK_MS = 1000
 const LETTER_PATTERN = /\p{L}/u
 
@@ -57,7 +58,11 @@ const createLetterCandidates = (): LetterCandidate[] => {
             if (!parentNode) return NodeFilter.FILTER_REJECT
 
             const parentTagName = parentNode.tagName
-            if (parentTagName === 'SCRIPT' || parentTagName === 'STYLE' || parentTagName === 'NOSCRIPT') {
+            if (
+                parentTagName === 'SCRIPT' ||
+                parentTagName === 'STYLE' ||
+                parentTagName === 'NOSCRIPT'
+            ) {
                 return NodeFilter.FILTER_REJECT
             }
             if (!isNodeVisible(parentNode)) return NodeFilter.FILTER_REJECT
@@ -121,8 +126,6 @@ export const initGamedevLetterGame = () => {
     const debugBuildNode = queryOptional<HTMLElement>(DEBUG_BUILD_SELECTOR)
     if (!gamedevKeywordNode || !debugBuildNode) return
 
-    let isHovered = false
-    let isFocused = false
     let timerId: number | null = null
     let score = 0
     let activeTargetNode: HTMLButtonElement | null = null
@@ -140,13 +143,15 @@ export const initGamedevLetterGame = () => {
         debugGameNode = document.createElement('div')
         debugGameNode.setAttribute('data-role', DEBUG_GAME_ROLE)
 
-        const debugHintNode = document.createElement('div')
-        debugHintNode.innerText = 'Click a letter and get one point.'
-
         debugScoreNode = document.createElement('div')
+        debugScoreNode.className = 'debug-gamedev-score'
         updateDebugScore()
 
-        debugGameNode.append(debugHintNode, debugScoreNode)
+        const debugHintNode = document.createElement('div')
+        debugHintNode.className = 'debug-gamedev-hint'
+        debugHintNode.innerText = 'Click the highlighted area.'
+
+        debugGameNode.append(debugScoreNode, debugHintNode)
         debugBuildNode.appendChild(debugGameNode)
     }
 
@@ -167,7 +172,7 @@ export const initGamedevLetterGame = () => {
 
         score += 1
         updateDebugScore()
-        clearActiveTarget()
+        endGame()
     }
 
     const activateRandomLetter = () => {
@@ -192,50 +197,37 @@ export const initGamedevLetterGame = () => {
     const startGame = () => {
         if (timerId !== null) return
 
-        score = 0
         mountDebugGame()
         updateDebugScore()
         activateRandomLetter()
+        gamedevKeywordNode.classList.add(KEYWORD_ACTIVE_CLASS)
         timerId = window.setInterval(activateRandomLetter, GAME_TICK_MS)
     }
 
-    const stopGame = () => {
+    const endGame = () => {
         if (timerId !== null) {
             window.clearInterval(timerId)
             timerId = null
         }
 
         clearActiveTarget()
-        unmountDebugGame()
-    }
-
-    const syncGame = () => {
-        if (isHovered || isFocused) {
-            startGame()
-            return
-        }
-        stopGame()
+        gamedevKeywordNode.classList.remove(KEYWORD_ACTIVE_CLASS)
     }
 
     gamedevKeywordNode.addEventListener('mouseenter', () => {
-        isHovered = true
-        syncGame()
-    })
-
-    gamedevKeywordNode.addEventListener('mouseleave', () => {
-        isHovered = false
-        syncGame()
+        startGame()
     })
 
     gamedevKeywordNode.addEventListener('focusin', () => {
-        isFocused = true
-        syncGame()
+        startGame()
     })
 
-    gamedevKeywordNode.addEventListener('focusout', (event: FocusEvent) => {
-        const nextFocusNode = event.relatedTarget
-        if (nextFocusNode instanceof Node && gamedevKeywordNode.contains(nextFocusNode)) return
-        isFocused = false
-        syncGame()
+    gamedevKeywordNode.addEventListener('click', () => {
+        endGame()
+    })
+
+    gamedevKeywordNode.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return
+        endGame()
     })
 }

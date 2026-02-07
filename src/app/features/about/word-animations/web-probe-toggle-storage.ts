@@ -18,6 +18,6 @@ export const writeWebProbeToggleState = (isEnabled: boolean) => {
         }
         window.localStorage.removeItem(WEB_PROBE_TOGGLE_KEY)
     } catch {
-        // localStorage can be blocked in private mode or strict browser settings.
+        // LocalStorage can be blocked in private mode or strict browser settings.
     }
 }

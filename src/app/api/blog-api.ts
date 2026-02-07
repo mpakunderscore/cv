@@ -61,7 +61,7 @@ const parseGenerateResponse = (payload: unknown): BlogGenerateResponse | null =>
 }
 
 export const requestBlogPostGenerate = async (
-    requestPayload: BlogGenerateRequest,
+    requestPayload: BlogGenerateRequest
 ): Promise<BlogGenerateResponse | null> => {
     try {
         const response = await fetch(BLOG_GENERATE_PATH, {

@@ -157,7 +157,7 @@ export const createBlogGeneratedPostsStorageController = () => ({
 
             window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))
         } catch {
-            // localStorage can be unavailable in strict/private browser settings.
+            // LocalStorage can be unavailable in strict/private browser settings.
         }
     },
 })

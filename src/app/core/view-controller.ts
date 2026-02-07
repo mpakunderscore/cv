@@ -48,9 +48,10 @@ const readHistoryState = (): ViewHistoryState | null => {
 
 const writeHistoryState = (view: View, step: number, mode: HistoryMode) => {
     const currentState = window.history.state
-    const stateRecord = currentState && typeof currentState === 'object'
-        ? (currentState as Record<string, unknown>)
-        : {}
+    const stateRecord =
+        currentState && typeof currentState === 'object'
+            ? (currentState as Record<string, unknown>)
+            : {}
 
     const nextState = {
         ...stateRecord,
@@ -265,8 +266,7 @@ export const initViewController = () => {
         else if (nextView === 'blog') {
             rerenderBlogPosts()
             showBlogInstant(nodes)
-        }
-        else showAboutInstant(nodes)
+        } else showAboutInstant(nodes)
     }
 
     const openCv = () => {
@@ -279,9 +279,13 @@ export const initViewController = () => {
         writeHistoryState('cv', historyStep, 'push')
 
         isOpeningCv = true
-        animateCvOpen(nodes, () => currentView === 'cv', () => {
-            isOpeningCv = false
-        })
+        animateCvOpen(
+            nodes,
+            () => currentView === 'cv',
+            () => {
+                isOpeningCv = false
+            }
+        )
     }
 
     const openBlog = () => {
@@ -296,9 +300,13 @@ export const initViewController = () => {
         rerenderBlogPosts()
 
         isOpeningBlog = true
-        animateBlogOpen(nodes, () => currentView === 'blog', () => {
-            isOpeningBlog = false
-        })
+        animateBlogOpen(
+            nodes,
+            () => currentView === 'blog',
+            () => {
+                isOpeningBlog = false
+            }
+        )
     }
 
     const openAbout = () => {

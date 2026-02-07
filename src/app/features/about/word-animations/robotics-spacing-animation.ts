@@ -19,7 +19,11 @@ const getTicsLetterOffsets = (ticsStep: number): [number, number, number] => {
     return [0, shiftToLeft, ROBOTICS_GROUP_STEPS - shiftToLeft]
 }
 
-const buildRoboticsWord = (groupOffset: number, interGroupGap: number, letterOffsets: [number, number, number]) => {
+const buildRoboticsWord = (
+    groupOffset: number,
+    interGroupGap: number,
+    letterOffsets: [number, number, number]
+) => {
     const [offsetTi, offsetIc, offsetCs] = letterOffsets
     return `${' '.repeat(groupOffset)}${ROBOTICS_LEFT_GROUP}${' '.repeat(interGroupGap)}t${' '.repeat(offsetTi)}i${' '.repeat(offsetIc)}c${' '.repeat(offsetCs)}s`
 }
@@ -39,7 +43,11 @@ export const initRoboticsSpacingAnimation = () => {
     let isFocused = false
 
     const renderWord = () => {
-        roboticsWordNode.innerText = buildRoboticsWord(groupOffset, interGroupGap, getTicsLetterOffsets(ticsStep))
+        roboticsWordNode.innerText = buildRoboticsWord(
+            groupOffset,
+            interGroupGap,
+            getTicsLetterOffsets(ticsStep)
+        )
     }
 
     const applyBaseWord = () => {

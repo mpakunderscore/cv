@@ -44,7 +44,9 @@ export const initBciFrequencyBlink = () => {
     const bciWordNode = bciKeywordNode?.querySelector<HTMLElement>(BCI_WORD_SELECTOR)
     if (!bciKeywordNode || !bciWordNode) return
 
-    const letterNodes = Array.from(bciWordNode.querySelectorAll<HTMLSpanElement>(BCI_LETTER_SELECTOR))
+    const letterNodes = Array.from(
+        bciWordNode.querySelectorAll<HTMLSpanElement>(BCI_LETTER_SELECTOR)
+    )
     if (letterNodes.length === 0) return
 
     const letterStates: BciLetterState[] = letterNodes.map((letterNode) => ({
