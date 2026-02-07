@@ -1,4 +1,5 @@
 :root {
     --z-color-scheme: 10;
-    --z-debug: 11;
+    --z-debug: 0;
+    --z-back-button: 100;
 }

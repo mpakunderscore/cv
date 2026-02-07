@@ -2,11 +2,12 @@ import { queryOptional } from '@/lib/dom'
 
 const BCI_KEYWORD_SELECTOR = '.about-keyword-item-bci'
 const BCI_WORD_SELECTOR = '.about-bci-word'
+const BCI_LETTER_SELECTOR = '.about-bci-letter'
 const BCI_BRIGHTNESS_ON = 1
 const BCI_BRIGHTNESS_OFF = 0.3
-const BCI_MIN_INTERVAL_MS = 700
-const BCI_MAX_INTERVAL_MS = 1000
 const BCI_FREQUENCY_UPDATE_MS = 3000
+
+type BciLetterKey = 'b' | 'c' | 'i'
 
 type BciLetterState = {
     intervalMs: number
@@ -15,33 +16,27 @@ type BciLetterState = {
     timeoutId: number | null
 }
 
-const getRandomIntervalMs = () => {
-    const intervalRange = BCI_MAX_INTERVAL_MS - BCI_MIN_INTERVAL_MS + 1
-    return BCI_MIN_INTERVAL_MS + Math.floor(Math.random() * intervalRange)
+const BCI_INTERVAL_BY_LETTER_MS: Record<BciLetterKey, { min: number; max: number }> = {
+    b: { min: 700, max: 1000 },
+    c: { min: 700, max: 1000 },
+    i: { min: 700, max: 1000 },
+}
+
+const getIntervalRangeByLetter = (letterNode: HTMLSpanElement) => {
+    const letter = letterNode.dataset.letter
+    if (letter === 'b' || letter === 'c' || letter === 'i') {
+        return BCI_INTERVAL_BY_LETTER_MS[letter]
+    }
+    return { min: 700, max: 1000 }
+}
+
+const getRandomIntervalMs = (minIntervalMs: number, maxIntervalMs: number) => {
+    const intervalRange = maxIntervalMs - minIntervalMs + 1
+    return minIntervalMs + Math.floor(Math.random() * intervalRange)
 }
 
 const setLetterBrightness = (letterNode: HTMLSpanElement, brightness: number) => {
     letterNode.style.filter = `brightness(${brightness})`
-}
-
-const createLetterNodes = (bciWordNode: HTMLElement) => {
-    const letters = bciWordNode.innerText.trim().split('')
-    bciWordNode.innerText = ''
-
-    const fragment = document.createDocumentFragment()
-    const letterNodes: HTMLSpanElement[] = []
-
-    for (const letter of letters) {
-        const letterNode = document.createElement('span')
-        letterNode.className = 'about-bci-letter'
-        letterNode.innerText = letter
-        setLetterBrightness(letterNode, BCI_BRIGHTNESS_ON)
-        fragment.appendChild(letterNode)
-        letterNodes.push(letterNode)
-    }
-
-    bciWordNode.appendChild(fragment)
-    return letterNodes
 }
 
 export const initBciFrequencyBlink = () => {
@@ -49,17 +44,22 @@ export const initBciFrequencyBlink = () => {
     const bciWordNode = bciKeywordNode?.querySelector<HTMLElement>(BCI_WORD_SELECTOR)
     if (!bciKeywordNode || !bciWordNode) return
 
-    const letterNodes = createLetterNodes(bciWordNode)
+    const letterNodes = Array.from(bciWordNode.querySelectorAll<HTMLSpanElement>(BCI_LETTER_SELECTOR))
     if (letterNodes.length === 0) return
 
     const letterStates: BciLetterState[] = letterNodes.map((letterNode) => ({
-        intervalMs: getRandomIntervalMs(),
+        intervalMs: getRandomIntervalMs(
+            getIntervalRangeByLetter(letterNode).min,
+            getIntervalRangeByLetter(letterNode).max
+        ),
         isDimmed: false,
         letterNode,
         timeoutId: null,
     }))
 
     let isRunning = false
+    let isHovered = false
+    let isFocused = false
     let frequencyTimerId: number | null = null
 
     const clearLetterTimer = (letterState: BciLetterState) => {
@@ -99,7 +99,8 @@ export const initBciFrequencyBlink = () => {
 
     const refreshFrequencies = () => {
         for (const letterState of letterStates) {
-            letterState.intervalMs = getRandomIntervalMs()
+            const { min, max } = getIntervalRangeByLetter(letterState.letterNode)
+            letterState.intervalMs = getRandomIntervalMs(min, max)
             if (isRunning) {
                 scheduleBlink(letterState)
             }
@@ -129,16 +130,44 @@ export const initBciFrequencyBlink = () => {
         applyBaseState()
     }
 
-    const syncByVisibility = () => {
+    const syncAnimation = () => {
         if (document.visibilityState === 'hidden') {
             stopAnimation()
             return
         }
-        startAnimation()
+
+        if (isHovered || isFocused) {
+            startAnimation()
+            return
+        }
+
+        stopAnimation()
     }
 
-    document.addEventListener('visibilitychange', syncByVisibility)
+    bciKeywordNode.addEventListener('mouseenter', () => {
+        isHovered = true
+        syncAnimation()
+    })
+
+    bciKeywordNode.addEventListener('mouseleave', () => {
+        isHovered = false
+        syncAnimation()
+    })
+
+    bciKeywordNode.addEventListener('focusin', () => {
+        isFocused = true
+        syncAnimation()
+    })
+
+    bciKeywordNode.addEventListener('focusout', (event: FocusEvent) => {
+        const nextFocusNode = event.relatedTarget
+        if (nextFocusNode instanceof Node && bciKeywordNode.contains(nextFocusNode)) return
+        isFocused = false
+        syncAnimation()
+    })
+
+    document.addEventListener('visibilitychange', syncAnimation)
 
     applyBaseState()
-    syncByVisibility()
+    syncAnimation()
 }

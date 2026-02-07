@@ -29,12 +29,14 @@
 }
 
 .blog-back-button {
+    z-index: var(--z-back-button);
     position: fixed;
     right: var(--space-section);
     bottom: var(--space-section);
     border: 0;
     background: transparent;
     color: var(--md-sys-color-on-surface);
+    text-shadow: 0 2px 8px color-mix(in srgb, var(--md-sys-color-surface) 70%, transparent);
     cursor: pointer;
     font-weight: var(--font-weight-regular);
     font-size: var(--font-title);

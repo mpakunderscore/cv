@@ -96,6 +96,7 @@
     background: transparent;
     letter-spacing: inherit;
     cursor: pointer;
+    text-shadow: 0 0 10px color-mix(in srgb, var(--md-sys-color-primary) 35%, transparent);
     transition: color 150ms ease;
 }
 

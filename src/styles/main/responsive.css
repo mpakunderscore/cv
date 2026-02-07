@@ -34,6 +34,8 @@
     .about-screen-tile-cta {
         align-items: flex-start;
         justify-content: left;
+        padding: var(--size-5);
+        line-height: var(--line-height-base);
         text-align: left;
     }
 
@@ -52,6 +54,22 @@
 
     .about-screen-tile-intro {
         order: 4;
+    }
+
+    .about-screen-tile-cv,
+    .about-screen-tile-blog {
+        transform-origin: center center;
+    }
+
+    .about-screen-tile-mobile-opening {
+        z-index: 3;
+        color: transparent;
+        background-color: var(--md-sys-color-surface);
+        transform: translateY(var(--about-mobile-open-shift-y, 0px)) scaleY(4);
+        transition:
+            transform 420ms ease,
+            background-color 420ms ease,
+            color 120ms ease;
     }
 }
 

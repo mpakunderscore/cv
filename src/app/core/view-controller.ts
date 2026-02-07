@@ -3,8 +3,15 @@ import { CONFIG } from '@/lib/config'
 import { addClass, onClick, queryOptional, removeClass } from '@/lib/dom'
 
 type View = 'about' | 'cv' | 'blog'
+type HistoryMode = 'push' | 'replace'
+type ViewHistoryState = {
+    step: number
+    view: View
+}
 
 const STORAGE_KEY = 'cv:last-view'
+const MOBILE_OPEN_MEDIA_QUERY = '(max-width: 600px)'
+const HISTORY_STATE_KEY = 'cv:view-state'
 
 const readLastView = (): View | null => {
     try {
@@ -24,6 +31,40 @@ const writeLastView = (view: View) => {
     }
 }
 
+const readHistoryState = (): ViewHistoryState | null => {
+    const state = window.history.state
+    if (!state || typeof state !== 'object') return null
+
+    const historyState = (state as Record<string, unknown>)[HISTORY_STATE_KEY]
+    if (!historyState || typeof historyState !== 'object') return null
+
+    const view = (historyState as Record<string, unknown>).view
+    const step = (historyState as Record<string, unknown>).step
+    if (view !== 'about' && view !== 'cv' && view !== 'blog') return null
+    if (typeof step !== 'number' || !Number.isInteger(step) || step < 0) return null
+
+    return { view, step }
+}
+
+const writeHistoryState = (view: View, step: number, mode: HistoryMode) => {
+    const currentState = window.history.state
+    const stateRecord = currentState && typeof currentState === 'object'
+        ? (currentState as Record<string, unknown>)
+        : {}
+
+    const nextState = {
+        ...stateRecord,
+        [HISTORY_STATE_KEY]: { step, view },
+    }
+
+    if (mode === 'push') {
+        window.history.pushState(nextState, '')
+        return
+    }
+
+    window.history.replaceState(nextState, '')
+}
+
 type ViewNodes = {
     aboutScreen: HTMLElement
     cvScreen: HTMLElement
@@ -32,6 +73,29 @@ type ViewNodes = {
     blogTileButton: HTMLElement
     cvBackButton: HTMLElement
     blogBackButton: HTMLElement
+}
+
+const isMobileOpenAnimation = () => {
+    if (typeof window.matchMedia === 'function') {
+        return window.matchMedia(MOBILE_OPEN_MEDIA_QUERY).matches
+    }
+
+    return window.innerWidth <= 600
+}
+
+const applyMobileTileOpenAnimation = (tileButton: HTMLElement) => {
+    const tileRect = tileButton.getBoundingClientRect()
+    const tileCenterY = tileRect.top + tileRect.height / 2
+    const viewportCenterY = window.innerHeight / 2
+    const shiftY = viewportCenterY - tileCenterY
+
+    tileButton.style.setProperty('--about-mobile-open-shift-y', `${shiftY}px`)
+    addClass(tileButton, 'about-screen-tile-mobile-opening')
+}
+
+const clearMobileTileOpenAnimation = (tileButton: HTMLElement) => {
+    removeClass(tileButton, 'about-screen-tile-mobile-opening')
+    tileButton.style.removeProperty('--about-mobile-open-shift-y')
 }
 
 const hideCv = (cvScreen: HTMLElement) => {
@@ -53,6 +117,8 @@ const showAboutInstant = (nodes: ViewNodes) => {
     removeClass(nodes.aboutScreen, 'about-screen-opening')
     removeClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
     removeClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
+    clearMobileTileOpenAnimation(nodes.cvTileButton)
+    clearMobileTileOpenAnimation(nodes.blogTileButton)
     hideCv(nodes.cvScreen)
     hideBlog(nodes.blogScreen)
 }
@@ -62,6 +128,8 @@ const showCvInstant = (nodes: ViewNodes) => {
     removeClass(nodes.aboutScreen, 'about-screen-opening')
     removeClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
     removeClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
+    clearMobileTileOpenAnimation(nodes.cvTileButton)
+    clearMobileTileOpenAnimation(nodes.blogTileButton)
 
     hideBlog(nodes.blogScreen)
     removeClass(nodes.cvScreen, CONFIG.classes.hidden)
@@ -75,6 +143,8 @@ const showBlogInstant = (nodes: ViewNodes) => {
     removeClass(nodes.aboutScreen, 'about-screen-opening')
     removeClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
     removeClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
+    clearMobileTileOpenAnimation(nodes.cvTileButton)
+    clearMobileTileOpenAnimation(nodes.blogTileButton)
 
     hideCv(nodes.cvScreen)
     removeClass(nodes.blogScreen, CONFIG.classes.hidden)
@@ -83,14 +153,26 @@ const showBlogInstant = (nodes: ViewNodes) => {
     addClass(nodes.blogScreen, 'blog-screen-entered')
 }
 
-const animateCvOpen = (nodes: ViewNodes, done: () => void) => {
+const animateCvOpen = (nodes: ViewNodes, shouldApply: () => boolean, done: () => void) => {
+    const useMobileOpenAnimation = isMobileOpenAnimation()
+
     addClass(nodes.aboutScreen, 'about-screen-opening')
-    addClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
+    if (useMobileOpenAnimation) applyMobileTileOpenAnimation(nodes.cvTileButton)
+    else addClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
 
     window.setTimeout(() => {
+        if (!shouldApply()) {
+            removeClass(nodes.aboutScreen, 'about-screen-opening')
+            if (useMobileOpenAnimation) clearMobileTileOpenAnimation(nodes.cvTileButton)
+            else removeClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
+            done()
+            return
+        }
+
         addClass(nodes.aboutScreen, CONFIG.classes.hidden)
         removeClass(nodes.aboutScreen, 'about-screen-opening')
-        removeClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
+        if (useMobileOpenAnimation) clearMobileTileOpenAnimation(nodes.cvTileButton)
+        else removeClass(nodes.cvTileButton, 'about-screen-tile-cv-opening')
 
         hideBlog(nodes.blogScreen)
         addClass(nodes.cvScreen, CONFIG.classes.visible)
@@ -105,14 +187,26 @@ const animateCvOpen = (nodes: ViewNodes, done: () => void) => {
     }, CONFIG.timings.cvOpenMs)
 }
 
-const animateBlogOpen = (nodes: ViewNodes, done: () => void) => {
+const animateBlogOpen = (nodes: ViewNodes, shouldApply: () => boolean, done: () => void) => {
+    const useMobileOpenAnimation = isMobileOpenAnimation()
+
     addClass(nodes.aboutScreen, 'about-screen-opening')
-    addClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
+    if (useMobileOpenAnimation) applyMobileTileOpenAnimation(nodes.blogTileButton)
+    else addClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
 
     window.setTimeout(() => {
+        if (!shouldApply()) {
+            removeClass(nodes.aboutScreen, 'about-screen-opening')
+            if (useMobileOpenAnimation) clearMobileTileOpenAnimation(nodes.blogTileButton)
+            else removeClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
+            done()
+            return
+        }
+
         addClass(nodes.aboutScreen, CONFIG.classes.hidden)
         removeClass(nodes.aboutScreen, 'about-screen-opening')
-        removeClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
+        if (useMobileOpenAnimation) clearMobileTileOpenAnimation(nodes.blogTileButton)
+        else removeClass(nodes.blogTileButton, 'about-screen-tile-blog-opening')
 
         hideCv(nodes.cvScreen)
         addClass(nodes.blogScreen, CONFIG.classes.visible)
@@ -161,6 +255,7 @@ export const initViewController = () => {
     let isOpeningCv = false
     let isOpeningBlog = false
     let currentView: View = 'about'
+    let historyStep = 0
 
     const setViewInstant = (nextView: View) => {
         currentView = nextView
@@ -180,9 +275,11 @@ export const initViewController = () => {
 
         currentView = 'cv'
         writeLastView('cv')
+        historyStep += 1
+        writeHistoryState('cv', historyStep, 'push')
 
         isOpeningCv = true
-        animateCvOpen(nodes, () => {
+        animateCvOpen(nodes, () => currentView === 'cv', () => {
             isOpeningCv = false
         })
     }
@@ -193,25 +290,54 @@ export const initViewController = () => {
 
         currentView = 'blog'
         writeLastView('blog')
+        historyStep += 1
+        writeHistoryState('blog', historyStep, 'push')
 
         rerenderBlogPosts()
 
         isOpeningBlog = true
-        animateBlogOpen(nodes, () => {
+        animateBlogOpen(nodes, () => currentView === 'blog', () => {
             isOpeningBlog = false
         })
     }
 
     const openAbout = () => {
         if (currentView === 'about') return
+
+        if (historyStep > 0) {
+            window.history.back()
+            return
+        }
+
         setViewInstant('about')
+        writeHistoryState('about', historyStep, 'replace')
     }
 
-    const initialView = readLastView() ?? 'about'
+    const onPopState = () => {
+        const nextHistoryState = readHistoryState()
+        if (!nextHistoryState) {
+            historyStep = 0
+            setViewInstant('about')
+            writeHistoryState('about', historyStep, 'replace')
+            return
+        }
+
+        historyStep = nextHistoryState.step
+        setViewInstant(nextHistoryState.view)
+    }
+
+    const initialHistoryState = readHistoryState()
+    if (initialHistoryState) {
+        historyStep = initialHistoryState.step
+    }
+
+    const initialView = initialHistoryState?.view ?? readLastView() ?? 'about'
     setViewInstant(initialView)
+    writeHistoryState(initialView, historyStep, 'replace')
 
     onClick(cvTileButton, openCv)
     onClick(blogTileButton, openBlog)
     onClick(cvBackButton, openAbout)
     onClick(blogBackButton, openAbout)
+    window.addEventListener('popstate', onPopState)
 }
