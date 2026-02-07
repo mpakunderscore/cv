@@ -28,6 +28,11 @@ module.exports = {
         path: path.resolve(cloudflareRoot, 'dist'),
         filename: '[name].js',
         clean: true,
+        module: true,
+        library: {
+            type: 'module',
+            export: 'default',
+        },
     },
     resolve: {
         extensions: ['.ts', '.js'],
@@ -50,4 +55,7 @@ module.exports = {
         minimize: false,
     },
     devtool: false,
+    experiments: {
+        outputModule: true,
+    },
 }
