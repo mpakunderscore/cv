@@ -76,6 +76,10 @@ module.exports = {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
+            {
+                test: /\.(woff2?|ttf|otf)$/i,
+                type: 'asset/inline',
+            },
         ],
     },
     plugins: [
