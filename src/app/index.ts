@@ -1,10 +1,16 @@
 import '@/styles/index.css'
 
+import { initAboutKeywords } from '@/app/about-keywords'
 import { initBlogPage } from '@/app/blog'
 import { initCvPage } from '@/app/cv'
+import { createFontController } from '@/app/font-controller'
+import { createRenderGateController } from '@/app/render-gate-controller'
+import { initViewController } from '@/app/view-controller'
+import { initAiRandomAnimation } from '@/app/word-animations/ai-random-animation'
+import { initRoboticsSpacingAnimation } from '@/app/word-animations/robotics-spacing-animation'
+import { initWebDebugProbe } from '@/app/word-animations/web-debug-probe'
 import { CONFIG, UI_TEXT } from '@/lib/config'
 import { onClick, queryOptional } from '@/lib/dom'
-import { initCounter } from '@/lib/who'
 
 declare const BUILD: {
     packageVersion: string
@@ -36,10 +42,14 @@ const init = () => {
 
     initCvPage()
     initBlogPage()
+    initAboutKeywords()
+    initAiRandomAnimation()
+    initRoboticsSpacingAnimation()
+    initWebDebugProbe()
+    initViewController()
     createThemeController(themeToggleButton)
-
-    void initCounter()
     renderDebugInfo(debugPanel, debugBuildPanel)
+    createFontController(debugBuildPanel)
 }
 
 const renderDebugInfo = (container: HTMLElement | null, buildTarget: HTMLElement | null) => {
@@ -66,8 +76,24 @@ const renderDebugInfo = (container: HTMLElement | null, buildTarget: HTMLElement
     buildTarget.appendChild(fragment)
 }
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init)
-} else {
-    init()
+const waitForDomReady = async () => {
+    if (document.readyState !== 'loading') return
+
+    await new Promise<void>((resolve) => {
+        document.addEventListener('DOMContentLoaded', () => resolve(), { once: true })
+    })
 }
+
+const bootstrap = async () => {
+    const renderGateController = createRenderGateController()
+
+    try {
+        await waitForDomReady()
+        init()
+        await renderGateController.waitForReadyAndReveal()
+    } catch {
+        renderGateController.reveal()
+    }
+}
+
+void bootstrap()
