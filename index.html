@@ -1,6 +1,6 @@
 <!doctype html>
 
-<html lang="en" class="dark">
+<html lang="en" class="dark app-loading">
     <head>
         <!-- Google tag (gtag.js) -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-FS8WCTL443"></script>
@@ -20,8 +20,15 @@
             content="width=device-width, height=device-height, initial-scale=1, viewport-fit=cover, user-scalable=no, minimal-ui"
         />
 
+        <style>
+            html.app-loading,
+            html.app-loading body {
+                visibility: hidden;
+            }
+        </style>
+
         <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=Inter:wght@400;600;700&family=Manrope:wght@400;600;700&family=Onest:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap"
             rel="stylesheet"
             type="text/css"
         />
@@ -58,8 +65,37 @@
             <div data-role="about-tile" data-tile="cta" class="about-screen-tile about-screen-tile-cta">
                 <div>Hello! My name is Pavel Kuzmin.</div>
                 <div>I'm a Software Engineer passionate about building things.</div>
-                <div>Gamedev, Web, AI, BCI and robotics.</div>
-                <div>This is just my CV, click to open.</div>
+                <div class="about-keyword-line" data-role="about-keywords">
+                    <span
+                        class="about-keyword-item about-keyword-item-gamedev"
+                        data-topic="gamedev"
+                        role="button"
+                        tabindex="0"
+                    >
+                        Gamedev
+                    </span>
+                    <span class="about-keyword-item about-keyword-item-web" data-topic="web" role="button" tabindex="0">
+                        Web
+                    </span>
+                    <span class="about-keyword-item about-keyword-item-ai" data-topic="ai" role="button" tabindex="0">
+                        <span class="about-ai-word" aria-label="ai">AI</span>
+                    </span>
+                    <span class="about-keyword-item about-keyword-item-bci" data-topic="bci" role="button" tabindex="0">
+                        BCI
+                    </span>
+                    <span
+                        class="about-keyword-item about-keyword-item-robotics"
+                        data-topic="robotics"
+                        role="button"
+                        tabindex="0"
+                    >
+                        <span class="about-robotics-word" aria-label="robotics">Robotics</span>
+                    </span>
+                </div>
+        <!--        <div class="about-keyword-copy" data-role="about-keyword-copy" aria-live="polite">-->
+        <!--            Gamedev, Web, AI, BCI and robotics.-->
+        <!--        </div>-->
+                <div>Click to open, hover to interact.</div>
             </div>
             <div
                 data-role="about-tile"
@@ -275,20 +311,15 @@
 
         <div data-view="blog" class="blog-screen">
             <button class="blog-back-button" type="button">BACK</button>
-            <div class="blog-screen-title">BLOG</div>
-            <div class="blog-screen-text">
-                This section will contain blog posts. For now, it is a placeholder screen with the same open
-                behavior as CV.
-            </div>
+            <div class="blog-posts" data-role="blog-posts"></div>
         </div>
 
         <div data-role="debug">
             <div data-role="debug-build"></div>
-            <div data-role="counter"></div>
         </div>
 
     </body>
 
-    <script src="dist/index.js?v=86e1ecbf36d157146550"></script>
+    <script src="dist/index.js?v=2aa2e2424f0e293809bd"></script>
 
 </html>
