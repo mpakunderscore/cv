@@ -36,8 +36,158 @@
     background: transparent;
     color: var(--md-sys-color-on-surface);
     cursor: pointer;
-    font-weight: var(--font-weight-semibold);
+    font-weight: var(--font-weight-regular);
     font-size: var(--font-title);
     letter-spacing: 0.12em;
     text-transform: uppercase;
+}
+
+.blog-posts {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-section);
+}
+
+.blog-post {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: var(--space-section);
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--md-sys-color-surface) 92%, transparent);
+    transition: background-color 200ms ease;
+}
+
+.blog-post-header {
+    margin-bottom: calc(var(--space-section) * 0.75);
+}
+
+.blog-post-title {
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-title);
+    transition: opacity 200ms ease;
+}
+
+.blog-post-tags {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    opacity: 0.9;
+}
+
+.blog-tag {
+    border-radius: 999px;
+    font-size: var(--font-small);
+    line-height: calc(var(--line-height-base) / 1.5);
+    letter-spacing: 0.06em;
+    opacity: 0.85;
+}
+
+.blog-post-body p {
+    margin: 0;
+    line-height: 1.55;
+}
+
+.blog-post-body {
+    transition: opacity 200ms ease;
+}
+
+.blog-post-body p + p {
+    margin-top: 10px;
+}
+
+.blog-post-body input {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.blog-post:first-child:hover {
+    background: color-mix(in srgb, var(--md-sys-color-surface-container) 65%, var(--md-sys-color-surface));
+}
+
+.blog-post:first-child:hover .blog-post-title,
+.blog-post:first-child:hover .blog-post-body {
+    opacity: 0.5;
+}
+
+.blog-post:first-child .blog-post-title,
+.blog-post:first-child .blog-post-body,
+.blog-post:first-child .blog-post-body p {
+    border: 0;
+    outline: none;
+    border-radius: 6px;
+    cursor: text;
+    transition:
+        opacity 200ms ease,
+        background-color 160ms ease;
+}
+
+.blog-post-run-button {
+    position: relative;
+    align-self: flex-end;
+    border: 0;
+    border-radius: 0;
+    margin-top: 12px;
+    padding-top: 6px;
+    padding-right: 2px;
+    padding-bottom: 2px;
+    padding-left: 2px;
+    font: inherit;
+    line-height: 1;
+    font-size: var(--font-small);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--md-sys-color-on-surface);
+    background: transparent;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.blog-post:first-child:hover .blog-post-run-button,
+.blog-post:first-child:focus-within .blog-post-run-button,
+.blog-post:first-child.blog-post-running .blog-post-run-button {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.blog-post:first-child.blog-post-running .blog-post-run-button {
+    opacity: 0.75;
+    color: color-mix(in srgb, var(--md-sys-color-primary) 65%, var(--md-sys-color-on-surface));
+    cursor: wait;
+}
+
+.blog-post-run-button:hover,
+.blog-post-run-button:focus-visible {
+    color: color-mix(in srgb, var(--md-sys-color-primary) 50%, var(--md-sys-color-on-surface));
+}
+
+.blog-post:first-child.blog-post-running {
+    animation: blog-post-run-background 520ms ease-in-out infinite alternate;
+}
+
+.blog-post:first-child:focus-within {
+    background: color-mix(in srgb, var(--md-sys-color-surface-container) 55%, var(--md-sys-color-surface));
+}
+
+.blog-post:first-child .blog-post-title:focus,
+.blog-post:first-child .blog-post-title:focus-visible,
+.blog-post:first-child .blog-post-body:focus,
+.blog-post:first-child .blog-post-body:focus-visible,
+.blog-post:first-child .blog-post-body p:focus,
+.blog-post:first-child .blog-post-body p:focus-visible {
+    border: 0;
+    outline: none;
+    background: color-mix(in srgb, var(--md-sys-color-surface-container) 35%, transparent);
+}
+
+@keyframes blog-post-run-background {
+    from {
+        background: color-mix(in srgb, var(--md-sys-color-surface-container) 62%, var(--md-sys-color-surface));
+    }
+
+    to {
+        background: color-mix(in srgb, var(--md-sys-color-primary) 18%, var(--md-sys-color-surface));
+    }
 }

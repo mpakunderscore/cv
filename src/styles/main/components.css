@@ -8,6 +8,7 @@
 }
 
 [data-role='debug'] {
+    z-index: var(--z-debug);
     position: fixed;
     bottom: var(--space-section);
     left: var(--space-section);
@@ -15,10 +16,28 @@
     font-size: 12px;
     line-height: 1.4;
     opacity: 0.5;
-    pointer-events: none;
+    pointer-events: auto;
 }
 
-[data-role='debug-build'] div,
-[data-role='counter'] {
+[data-role='debug-build'] div {
     white-space: pre-wrap;
+}
+
+.debug-font-option {
+    display: none;
+    margin-right: 8px;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.debug-font-option:hover {
+    opacity: 1;
+}
+
+.debug-font-option.is-active {
+    opacity: 1;
+    text-decoration-thickness: 2px;
 }

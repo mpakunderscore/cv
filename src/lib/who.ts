@@ -1,5 +1,3 @@
-import { CONFIG } from './config'
-
 type CounterResponse = {
     uniqueForKey?: number
     uniqueAll?: number
@@ -33,7 +31,7 @@ const parseCounterValue = (payload: unknown): number => {
 }
 
 export const initCounter = async () => {
-    const counterNode = document.querySelector<HTMLElement>(CONFIG.selectors.counter)
+    const counterNode = document.querySelector<HTMLElement>('[data-role="counter"]')
     if (!counterNode) return
 
     try {

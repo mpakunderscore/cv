@@ -1,5 +1,5 @@
 :root {
-    --font-family-base: 'Inter', sans-serif;
+    --font-family-base: 'Source Sans 3', sans-serif;
     --font-base: 16px;
     --font-title: 18px;
     --font-name: 22px;
@@ -7,7 +7,7 @@
     --font-weight-regular: 400;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
-    --letter-spacing-big: 2px;
+    --letter-spacing-big: 8px;
     --letter-spacing-base: 1px;
     --letter-spacing-mobile: 0.5px;
     --line-height-big: 2;
