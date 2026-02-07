@@ -5,6 +5,8 @@ import { createRenderGateController } from '@/app/core/render-gate-controller'
 import { initViewController } from '@/app/core/view-controller'
 import { initAboutKeywords } from '@/app/features/about/about-keywords'
 import { initAiRandomAnimation } from '@/app/features/about/word-animations/ai-random-animation'
+import { initBciFrequencyBlink } from '@/app/features/about/word-animations/bci-frequency-blink'
+import { initGamedevLetterGame } from '@/app/features/about/word-animations/gamedev-letter-game'
 import { initRoboticsSpacingAnimation } from '@/app/features/about/word-animations/robotics-spacing-animation'
 import { initWebDebugProbe } from '@/app/features/about/word-animations/web-debug-probe'
 import { initBlogPage } from '@/app/features/blog/blog'
@@ -44,6 +46,8 @@ const init = () => {
     initBlogPage()
     initAboutKeywords()
     initAiRandomAnimation()
+    initBciFrequencyBlink()
+    initGamedevLetterGame()
     initRoboticsSpacingAnimation()
     initWebDebugProbe()
     initViewController()

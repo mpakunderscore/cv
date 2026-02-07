@@ -104,6 +104,12 @@
     color: var(--md-sys-color-primary);
 }
 
+.about-keyword-item.about-keyword-item-web.is-probe-active,
+.about-keyword-item.about-keyword-item-web.is-probe-active:hover,
+.about-keyword-item.about-keyword-item-web.is-probe-active.is-active {
+    color: #ff7a1a;
+}
+
 .about-keyword-copy {
     min-height: calc(var(--line-height-big) * 2);
     max-width: 58ch;
@@ -128,10 +134,20 @@
     opacity: 1;
 }
 
+.about-bci-word {
+    display: inline-flex;
+    gap: 0;
+}
+
+.about-bci-letter {
+    display: inline-block;
+    transition: filter 180ms linear;
+}
+
 .about-ai-word {
     display: inline-block;
     width: 2ch;
-    text-align: left;
+    text-align: center;
 }
 
 .about-keyword-item-robotics {

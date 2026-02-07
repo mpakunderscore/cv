@@ -41,3 +41,30 @@
     opacity: 1;
     text-decoration-thickness: 2px;
 }
+
+.about-letter-game-target {
+    z-index: 20;
+    position: fixed;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ff5b00;
+    border-radius: 50%;
+    padding: 0;
+    background: rgb(255 91 0 / 16%);
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+.about-letter-game-target:hover {
+    background: rgb(255 91 0 / 24%);
+}
+
+.about-letter-game-target:focus-visible {
+    outline: 1px solid #ff5b00;
+    outline-offset: 1px;
+}
+
+[data-role='debug-gamedev-letter-game'] {
+    color: var(--md-sys-color-primary);
+}

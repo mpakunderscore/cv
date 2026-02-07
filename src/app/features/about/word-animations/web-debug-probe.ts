@@ -1,49 +1,11 @@
 import { queryOptional } from '@/lib/dom'
+import { createWebProbeEntries, type ProbeEntry } from '@/app/features/about/word-animations/web-probe-entries'
 
 const WEB_KEYWORD_SELECTOR = '.about-keyword-item-web'
 const DEBUG_BUILD_SELECTOR = '[data-role="debug-build"]'
 const DEBUG_PROBE_ROLE = 'debug-web-probe'
 const APPEND_LINE_INTERVAL_MS = 1000
-
-type ProbeEntry = {
-    key: string
-    value: string
-}
-
-const stringifyValue = (value: unknown) => {
-    if (value === null || value === undefined) return 'n/a'
-    if (typeof value === 'string' && value.trim() === '') return 'n/a'
-    return String(value)
-}
-
-const readPreference = (query: string) => {
-    if (!window.matchMedia) return 'n/a'
-    return window.matchMedia(query).matches ? 'yes' : 'no'
-}
-
-const createProbeEntries = (): ProbeEntry[] => {
-    const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    const userLanguage = navigator.language
-    const userLanguages = navigator.languages?.join(', ')
-    const navigatorWithDeviceMemory = navigator as Navigator & { deviceMemory?: number }
-
-    return [
-        { key: 'userAgent', value: stringifyValue(navigator.userAgent) },
-        { key: 'platform', value: stringifyValue(navigator.platform) },
-        { key: 'language', value: stringifyValue(userLanguage) },
-        { key: 'languages', value: stringifyValue(userLanguages) },
-        { key: 'timeZone', value: stringifyValue(userTimeZone) },
-        { key: 'cookieEnabled', value: stringifyValue(navigator.cookieEnabled) },
-        { key: 'online', value: stringifyValue(navigator.onLine) },
-        { key: 'hardwareConcurrency', value: stringifyValue(navigator.hardwareConcurrency) },
-        { key: 'deviceMemoryGB', value: stringifyValue(navigatorWithDeviceMemory.deviceMemory) },
-        { key: 'maxTouchPoints', value: stringifyValue(navigator.maxTouchPoints) },
-        { key: 'screen', value: `${window.screen.width}x${window.screen.height}` },
-        { key: 'viewport', value: `${window.innerWidth}x${window.innerHeight}` },
-        { key: 'prefersDark', value: readPreference('(prefers-color-scheme: dark)') },
-        { key: 'prefersReducedMotion', value: readPreference('(prefers-reduced-motion: reduce)') },
-    ]
-}
+const WEB_PROBE_ACTIVE_CLASS = 'is-probe-active'
 
 export const initWebDebugProbe = () => {
     const webKeywordNode = queryOptional<HTMLElement>(WEB_KEYWORD_SELECTOR)
@@ -52,6 +14,7 @@ export const initWebDebugProbe = () => {
 
     let isHovered = false
     let isFocused = false
+    let isToggledOn = false
     let timerId: number | null = null
     let probeContainerNode: HTMLDivElement | null = null
     let probeEntries: ProbeEntry[] = []
@@ -83,7 +46,7 @@ export const initWebDebugProbe = () => {
     const startProbe = () => {
         if (probeContainerNode) return
 
-        probeEntries = createProbeEntries()
+        probeEntries = createWebProbeEntries()
         nextEntryIndex = 0
 
         probeContainerNode = document.createElement('div')
@@ -100,11 +63,27 @@ export const initWebDebugProbe = () => {
     }
 
     const syncProbe = () => {
-        if (isHovered || isFocused) {
+        if (isHovered || isFocused || isToggledOn) {
             startProbe()
             return
         }
         stopProbe()
+    }
+
+    const renderToggleState = () => {
+        webKeywordNode.classList.toggle(WEB_PROBE_ACTIVE_CLASS, isToggledOn)
+        webKeywordNode.setAttribute('aria-pressed', String(isToggledOn))
+    }
+
+    const toggleProbe = () => {
+        isToggledOn = !isToggledOn
+        if (!isToggledOn) {
+            isHovered = false
+            isFocused = false
+            webKeywordNode.blur()
+        }
+        renderToggleState()
+        syncProbe()
     }
 
     webKeywordNode.addEventListener('mouseenter', () => {
@@ -128,4 +107,15 @@ export const initWebDebugProbe = () => {
         isFocused = false
         syncProbe()
     })
+
+    webKeywordNode.addEventListener('click', toggleProbe)
+
+    webKeywordNode.addEventListener('keydown', (event: KeyboardEvent) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return
+        event.preventDefault()
+        toggleProbe()
+    })
+
+    renderToggleState()
+    syncProbe()
 }
