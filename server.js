@@ -27,6 +27,17 @@ const server = http.createServer((req, res) => {
         pathname = '/index.html'
     }
 
+    if (pathname === '/api/hit') {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' })
+        res.end(
+            JSON.stringify({
+                uniqueForKey: 0,
+                uniqueAll: 0,
+            })
+        )
+        return
+    }
+
     let baseRoot = root
     let relativePath = pathname.replace(/^\/+/, '')
 

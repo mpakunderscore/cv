@@ -62,6 +62,7 @@
     font-size: var(--font-about-tile);
     text-transform: uppercase;
     line-height: 0.8;
+    letter-spacing: var(--letter-spacing-base);
     padding: var(--size-8);
 }
 
@@ -72,7 +73,7 @@
     max-width: var(--size-about-content-max-width);
     font-size: var(--font-base);
     padding: var(--size-8);
-    /*line-height: .8;*/
+    line-height: var(--line-height-big);
 }
 
 .about-screen-tile-cta {

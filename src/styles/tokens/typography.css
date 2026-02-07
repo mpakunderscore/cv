@@ -7,8 +7,10 @@
     --font-weight-regular: 400;
     --font-weight-semibold: 600;
     --font-weight-bold: 700;
+    --letter-spacing-big: 2px;
     --letter-spacing-base: 1px;
     --letter-spacing-mobile: 0.5px;
+    --line-height-big: 2;
     --line-height-base: 1.5;
     --line-height-tight: 1.05;
     --line-height-tightest: 1;
