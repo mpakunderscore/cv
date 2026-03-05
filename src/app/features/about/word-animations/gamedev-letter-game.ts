@@ -1,16 +1,23 @@
 import { queryOptional } from '@/lib/dom'
 
 const GAMEDEV_KEYWORD_SELECTOR = '.about-keyword-item-gamedev'
+const ABOUT_CTA_TILE_SELECTOR = '.about-screen-tile-cta'
 const DEBUG_BUILD_SELECTOR = '[data-role="debug-build"]'
 const DEBUG_GAME_ROLE = 'debug-gamedev-letter-game'
-const LETTER_TARGET_CLASS = 'about-letter-game-target'
+const LETTER_TARGET_CLASS = 'about-letter-game-letter'
 const KEYWORD_ACTIVE_CLASS = 'is-active'
 const GAME_TICK_MS = 1000
+const ABOUT_LINES_COUNT = 2
 const LETTER_PATTERN = /\p{L}/u
 
 type LetterCandidate = {
     textNode: Text
     letterIndexes: number[]
+}
+
+type LetterTarget = {
+    letterNode: HTMLSpanElement
+    clear: () => void
 }
 
 const pickRandom = <T>(values: T[]): T | null => {
@@ -47,88 +54,98 @@ const isNodeVisible = (startNode: HTMLElement) => {
     return true
 }
 
-const createLetterCandidates = (): LetterCandidate[] => {
-    if (!document.body) return []
-
-    const textWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-        acceptNode: (currentNode) => {
-            if (!(currentNode instanceof Text)) return NodeFilter.FILTER_REJECT
-
-            const parentNode = currentNode.parentElement
-            if (!parentNode) return NodeFilter.FILTER_REJECT
-
-            const parentTagName = parentNode.tagName
-            if (
-                parentTagName === 'SCRIPT' ||
-                parentTagName === 'STYLE' ||
-                parentTagName === 'NOSCRIPT'
-            ) {
-                return NodeFilter.FILTER_REJECT
-            }
-            if (!isNodeVisible(parentNode)) return NodeFilter.FILTER_REJECT
-            if (parentNode.closest('[data-role="debug"]')) return NodeFilter.FILTER_REJECT
-            if (parentNode.closest(`.${LETTER_TARGET_CLASS}`)) return NodeFilter.FILTER_REJECT
-
-            const nodeValue = currentNode.nodeValue ?? ''
-            if (!LETTER_PATTERN.test(nodeValue)) return NodeFilter.FILTER_REJECT
-
-            return NodeFilter.FILTER_ACCEPT
-        },
-    })
-
+const createLetterCandidates = (scopeNodes: HTMLElement[]): LetterCandidate[] => {
     const candidates: LetterCandidate[] = []
-    let currentNode = textWalker.nextNode()
 
-    while (currentNode) {
-        if (currentNode instanceof Text) {
-            const nodeValue = currentNode.nodeValue ?? ''
-            const letterIndexes = collectLetterIndexes(nodeValue)
-            if (letterIndexes.length > 0) {
-                candidates.push({ textNode: currentNode, letterIndexes })
+    for (const scopeNode of scopeNodes) {
+        const textWalker = document.createTreeWalker(scopeNode, NodeFilter.SHOW_TEXT, {
+            acceptNode: (currentNode) => {
+                if (!(currentNode instanceof Text)) return NodeFilter.FILTER_REJECT
+
+                const parentNode = currentNode.parentElement
+                if (!parentNode) return NodeFilter.FILTER_REJECT
+
+                const parentTagName = parentNode.tagName
+                if (
+                    parentTagName === 'SCRIPT' ||
+                    parentTagName === 'STYLE' ||
+                    parentTagName === 'NOSCRIPT'
+                ) {
+                    return NodeFilter.FILTER_REJECT
+                }
+
+                if (!isNodeVisible(parentNode)) return NodeFilter.FILTER_REJECT
+                if (parentNode.closest('[data-role="debug"]')) return NodeFilter.FILTER_REJECT
+                if (parentNode.closest(`.${LETTER_TARGET_CLASS}`)) return NodeFilter.FILTER_REJECT
+
+                const nodeValue = currentNode.nodeValue ?? ''
+                if (!LETTER_PATTERN.test(nodeValue)) return NodeFilter.FILTER_REJECT
+
+                return NodeFilter.FILTER_ACCEPT
+            },
+        })
+
+        let currentNode = textWalker.nextNode()
+
+        while (currentNode) {
+            if (currentNode instanceof Text) {
+                const nodeValue = currentNode.nodeValue ?? ''
+                const letterIndexes = collectLetterIndexes(nodeValue)
+                if (letterIndexes.length > 0) {
+                    candidates.push({ textNode: currentNode, letterIndexes })
+                }
             }
-        }
 
-        currentNode = textWalker.nextNode()
+            currentNode = textWalker.nextNode()
+        }
     }
 
     return candidates
 }
 
-const getLetterRect = (textNode: Text, letterIndex: number) => {
+const createLetterTarget = (textNode: Text, letterIndex: number): LetterTarget | null => {
     const nodeValue = textNode.nodeValue ?? ''
     const targetLetter = nodeValue[letterIndex]
     if (!targetLetter || !LETTER_PATTERN.test(targetLetter)) return null
 
-    const letterRange = document.createRange()
-    letterRange.setStart(textNode, letterIndex)
-    letterRange.setEnd(textNode, letterIndex + 1)
+    const highlightedLetterNode = textNode.splitText(letterIndex)
+    highlightedLetterNode.splitText(1)
 
-    const letterRect = letterRange.getBoundingClientRect()
-    if (letterRect.width <= 0 || letterRect.height <= 0) return null
+    const parentNode = highlightedLetterNode.parentNode
+    if (!parentNode) return null
 
-    return letterRect
-}
+    const letterNode = document.createElement('span')
+    letterNode.className = LETTER_TARGET_CLASS
+    letterNode.innerText = highlightedLetterNode.nodeValue ?? targetLetter
+    letterNode.setAttribute('role', 'button')
+    letterNode.setAttribute('tabindex', '0')
+    letterNode.setAttribute('aria-label', 'Catch highlighted letter')
+    parentNode.replaceChild(letterNode, highlightedLetterNode)
 
-const createTargetNode = (letterRect: DOMRect) => {
-    const targetNode = document.createElement('button')
-    targetNode.type = 'button'
-    targetNode.className = LETTER_TARGET_CLASS
-    targetNode.setAttribute('aria-label', 'Catch letter')
-    targetNode.style.left = `${letterRect.left + letterRect.width / 2}px`
-    targetNode.style.top = `${letterRect.top + letterRect.height / 2}px`
-    document.body.appendChild(targetNode)
+    const clear = () => {
+        const replacementNode = document.createTextNode(letterNode.innerText)
+        letterNode.replaceWith(replacementNode)
+        replacementNode.parentElement?.normalize()
+    }
 
-    return targetNode
+    return { letterNode, clear }
 }
 
 export const initGamedevLetterGame = () => {
     const gamedevKeywordNode = queryOptional<HTMLElement>(GAMEDEV_KEYWORD_SELECTOR)
+    const aboutCtaTileNode = queryOptional<HTMLElement>(ABOUT_CTA_TILE_SELECTOR)
     const debugBuildNode = queryOptional<HTMLElement>(DEBUG_BUILD_SELECTOR)
-    if (!gamedevKeywordNode || !debugBuildNode) return
+    if (!gamedevKeywordNode || !aboutCtaTileNode || !debugBuildNode) return
+
+    const gameLineNodes = Array.from(aboutCtaTileNode.querySelectorAll<HTMLElement>(':scope > div')).slice(
+        0,
+        ABOUT_LINES_COUNT
+    )
+    if (gameLineNodes.length === 0) return
 
     let timerId: number | null = null
     let score = 0
-    let activeTargetNode: HTMLButtonElement | null = null
+    let activeTarget: LetterTarget | null = null
     let debugGameNode: HTMLDivElement | null = null
     let debugScoreNode: HTMLDivElement | null = null
 
@@ -149,7 +166,7 @@ export const initGamedevLetterGame = () => {
 
         const debugHintNode = document.createElement('div')
         debugHintNode.className = 'debug-gamedev-hint'
-        debugHintNode.innerText = 'Click the highlighted area.'
+        debugHintNode.innerText = 'Click the highlighted letter.'
 
         debugGameNode.append(debugScoreNode, debugHintNode)
         debugBuildNode.appendChild(debugGameNode)
@@ -162,13 +179,13 @@ export const initGamedevLetterGame = () => {
     }
 
     const clearActiveTarget = () => {
-        if (!activeTargetNode) return
-        activeTargetNode.remove()
-        activeTargetNode = null
+        if (!activeTarget) return
+        activeTarget.clear()
+        activeTarget = null
     }
 
-    const awardPoint = (clickedNode: HTMLButtonElement) => {
-        if (activeTargetNode !== clickedNode) return
+    const awardPoint = (clickedNode: HTMLSpanElement) => {
+        if (!activeTarget || activeTarget.letterNode !== clickedNode) return
 
         score += 1
         updateDebugScore()
@@ -178,20 +195,25 @@ export const initGamedevLetterGame = () => {
     const activateRandomLetter = () => {
         clearActiveTarget()
 
-        const candidate = pickRandom(createLetterCandidates())
+        const candidate = pickRandom(createLetterCandidates(gameLineNodes))
         if (!candidate) return
 
         const letterIndex = pickRandom(candidate.letterIndexes)
         if (letterIndex === null) return
 
-        const letterRect = getLetterRect(candidate.textNode, letterIndex)
-        if (!letterRect) return
+        const target = createLetterTarget(candidate.textNode, letterIndex)
+        if (!target) return
 
-        const targetNode = createTargetNode(letterRect)
-        activeTargetNode = targetNode
-        const claimPoint = () => awardPoint(targetNode)
+        activeTarget = target
+        const claimPoint = () => awardPoint(target.letterNode)
+        const onTargetKeyDown = (event: KeyboardEvent) => {
+            if (event.key !== 'Enter' && event.key !== ' ') return
+            event.preventDefault()
+            claimPoint()
+        }
 
-        targetNode.addEventListener('click', claimPoint, { once: true })
+        target.letterNode.addEventListener('click', claimPoint, { once: true })
+        target.letterNode.addEventListener('keydown', onTargetKeyDown)
     }
 
     const startGame = () => {
@@ -214,20 +236,23 @@ export const initGamedevLetterGame = () => {
         gamedevKeywordNode.classList.remove(KEYWORD_ACTIVE_CLASS)
     }
 
-    gamedevKeywordNode.addEventListener('mouseenter', () => {
-        startGame()
-    })
+    const toggleGame = () => {
+        if (timerId !== null) {
+            endGame()
+            return
+        }
 
-    gamedevKeywordNode.addEventListener('focusin', () => {
         startGame()
-    })
+    }
 
-    gamedevKeywordNode.addEventListener('click', () => {
-        endGame()
+    gamedevKeywordNode.addEventListener('click', (event: MouseEvent) => {
+        event.preventDefault()
+        toggleGame()
     })
 
     gamedevKeywordNode.addEventListener('keydown', (event: KeyboardEvent) => {
         if (event.key !== 'Enter' && event.key !== ' ') return
-        endGame()
+        event.preventDefault()
+        toggleGame()
     })
 }
