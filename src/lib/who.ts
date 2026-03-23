@@ -1,3 +1,5 @@
+declare const HIT_API_ORIGIN: string
+
 type CounterResponse = {
     uniqueForKey?: number
     uniqueAll?: number
@@ -32,15 +34,17 @@ const parseCounterValue = (payload: unknown): number => {
 
 export const initCounter = async () => {
     const counterNode = document.querySelector<HTMLElement>('[data-role="counter"]')
-    if (!counterNode) return
 
     try {
         const url = new URL(window.location.href)
         const key = url.pathname === '/' ? 'home' : url.pathname
         const clientId = getClientId()
-        const response = await fetch(
-            `/api/hit?key=${encodeURIComponent(key)}&client_id=${encodeURIComponent(clientId)}`
-        )
+        const hitUrl = new URL('/api/hit', HIT_API_ORIGIN)
+        hitUrl.searchParams.set('key', key)
+        hitUrl.searchParams.set('client_id', clientId)
+        const response = await fetch(hitUrl.href)
+
+        if (!counterNode) return
 
         if (!response.ok) {
             counterNode.textContent = 'Unique: —'
@@ -51,6 +55,8 @@ export const initCounter = async () => {
         const value = parseCounterValue(payload)
         counterNode.textContent = `Unique: ${value}`
     } catch {
-        counterNode.textContent = 'Unique: —'
+        if (counterNode) {
+            counterNode.textContent = 'Unique: —'
+        }
     }
 }

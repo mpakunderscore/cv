@@ -13,6 +13,7 @@ import { initBlogPage } from '@/app/features/blog/blog'
 import { initCvPage } from '@/app/features/cv/cv'
 import { CONFIG, UI_TEXT } from '@/lib/config'
 import { onClick, queryOptional } from '@/lib/dom'
+import { initCounter } from '@/lib/who'
 
 declare const BUILD: {
     packageVersion: string
@@ -88,6 +89,7 @@ const bootstrap = async () => {
     const renderGateController = createRenderGateController()
 
     try {
+        void initCounter()
         await waitForDomReady()
         init()
         await renderGateController.waitForReadyAndReveal()

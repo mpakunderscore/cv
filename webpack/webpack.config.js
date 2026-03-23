@@ -8,6 +8,8 @@ const PACKAGE = require('../package.json')
 
 const repoRoot = path.resolve(__dirname, '..')
 
+const hitApiOrigin = (process.env.HIT_API_ORIGIN || 'https://mpak.space').replace(/\/$/, '')
+
 class UpdateIndexTimestampPlugin {
     apply(compiler) {
         compiler.hooks.afterEmit.tap('UpdateIndexTimestampPlugin', (compilation) => {
@@ -90,6 +92,7 @@ module.exports = {
                 gitCommit: execSync('git rev-parse --short HEAD').toString().trim().toUpperCase(),
                 buildTime: new Date().toISOString(),
             }),
+            HIT_API_ORIGIN: JSON.stringify(hitApiOrigin),
         }),
         new UpdateIndexTimestampPlugin(),
     ],

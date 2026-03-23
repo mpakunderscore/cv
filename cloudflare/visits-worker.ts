@@ -10,7 +10,6 @@ type D1Database = {
 
 type WorkerEnv = {
     DB: D1Database
-    ADMIN_TOKEN?: string
 }
 
 type RequestWithCf = Request & {
@@ -39,42 +38,6 @@ const jsonResponse = (body: unknown): Response =>
 const worker = {
     fetch: async (request: Request, env: WorkerEnv): Promise<Response> => {
         const url = new URL(request.url)
-
-        if (url.pathname === '/api/visits' && request.method === 'GET') {
-            const adminToken = env.ADMIN_TOKEN
-            const headerToken = request.headers.get('X-Admin-Token')
-
-            if (!adminToken || headerToken !== adminToken) {
-                return new Response('Forbidden', { status: 403 })
-            }
-
-            const limitParam = url.searchParams.get('limit') || '100'
-            const parsedLimit = Number.parseInt(limitParam, 10)
-            const limit = Math.min(Number.isFinite(parsedLimit) ? parsedLimit : 100, 1000)
-            const keyFilter = url.searchParams.get('key')
-
-            const statement = keyFilter
-                ? env.DB.prepare(
-                      `
-                    SELECT ts, key, ip, country, city, referer, user_agent, asn, as_org
-                    FROM visits
-                    WHERE key = ?
-                    ORDER BY id DESC
-                    LIMIT ?
-                `
-                  ).bind(keyFilter, limit)
-                : env.DB.prepare(
-                      `
-                    SELECT ts, key, ip, country, city, referer, user_agent, asn, as_org
-                    FROM visits
-                    ORDER BY id DESC
-                    LIMIT ?
-                `
-                  ).bind(limit)
-
-            const { results } = await statement.all()
-            return jsonResponse(results)
-        }
 
         if (url.pathname === '/api/hit' && request.method === 'GET') {
             const requestWithCf = request as RequestWithCf
